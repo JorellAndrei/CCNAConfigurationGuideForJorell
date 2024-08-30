@@ -1,0 +1,1212 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="./hand-sign.png" type="image/icon type">
+    <title>Jorell's Cisco Configuration Guide</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f4;
+        margin: 0;
+        padding: 20px;
+    }
+    
+    .container {
+        max-width: 800px;
+        margin: auto;
+        background: #fff;
+        padding: 20px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        border-radius: 8px;
+    }
+    
+    h1 {
+        font-size: 40px;
+        text-align: center;
+        color: #333;
+    }
+    
+    .command-section {
+        margin-top: 20px;
+    }
+    
+    .command {
+        margin-bottom: 20px;
+        border-left: 4px solid #007BFF;
+        padding-left: 15px;
+    }
+    
+    h2 {
+        font-size: 30px;
+        color: #007BFF;
+    }
+    
+    h3 {
+        color: #333;
+    }
+    
+    code {
+        background: #eee;
+        padding: 10px;
+        display: block;
+        margin: 10px 0;
+        border-radius: 4px;
+        font-family: "Courier New", Courier, monospace;
+    }
+    
+    p {
+        color: #555;
+    }
+    
+    .headline {
+        font-size: 48px;
+        text-align: center;
+        color: #007BFF;
+        font-weight: bold;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        margin: 0;
+        padding: 20px;
+        border-bottom: 3px solid #007BFF;
+        background: linear-gradient(to right, #007BFF, #00BFFF);
+        color: #fff;
+        border-radius: 8px;
+    }
+    
+    .section {
+        margin-top: 20px;
+    }
+    
+    .subtitle {
+        font-size: 28px;
+        font-weight: 400;
+        margin-bottom: 10px;
+    }
+    
+    .subtitle.ipv4 {
+        color: darkorchid;
+    }
+    
+    .subtitle.ipv6 {
+        color: green;
+    }
+    
+    .section p {
+        color: #555;
+        font-size: 16px;
+    }
+    
+    .image-container {
+        text-align: center;
+        margin-bottom: 20px;
+    }
+    
+    img {
+        max-width: 100%;
+        height: auto;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+    }
+</style>
+
+<body>
+    <div class="container" style="background: Black;">
+        <h1 class="headline">Cisco Configuration Guide</h1>
+    </div>
+    <br>
+    <br>
+    <div class="container">
+
+        <div class="command-section">
+
+            <h2>Basic Commands</h2>
+
+            <div class="command">
+                <h3>Change the Name for the Network Server</h3>
+                <code>Router> <b>enable</b><br>
+                    Router# <b>conf t</b><br>
+                    Router(config)# <b>hostname [Name]</b><br>
+                </code>
+                <p>This command changes the name of the router or network device, making it easier to identify and manage within a network.</p>
+            </div>
+
+            <div class="command">
+                <h3>Configure Console Password</h3>
+                <code>R1(config)# <b>line console 0</b><br>
+                R1(config-line)# <b>password console</b><br>
+                R1(config-line)# <b>login</b></code>
+                <p>This command sets a password for console access and enables login with that password.</p>
+            </div>
+
+            <div class="command">
+                <h3>Configure Telnet Password</h3>
+                <code>R1(config)# <b>line vty 0 4</b><br>
+                R1(config-line)# <b>password telnet</b><br>
+                R1(config-line)# <b>login</b></code>
+                <p>This command sets a password for remote access via Telnet and enables login with that password.</p>
+            </div>
+
+            <div class="command">
+                <h3>Set Enable Secret Password</h3>
+                <code>R1(config)# <b>enable secret class</b></code>
+                <p>Sets the privileged EXEC mode password, which is stored in a more secure, encrypted format.</p>
+            </div>
+
+            <div class="command">
+                <h3>Encrypt All Passwords</h3>
+                <code>R1(config)# <b>service password-encryption</b></code>
+                <p>This command encrypts all plain-text passwords in the configuration.</p>
+            </div>
+
+            <div class="command">
+                <h3>Disable DNS Lookup</h3>
+                <code>R1(config)# <b>no ip domain-lookup</b></code>
+                <p>Prevents the router from trying to translate incorrectly entered commands as DNS names, which can save time.</p>
+            </div>
+
+            <div class="command">
+                <h3>Enable CDP and View Neighbors</h3>
+                <code>
+            R1# <b>conf t</b><br>
+            R1(config)# <b>cdp run</b><br>
+            R1(config)# <b>do show cdp neighbors</b>
+        </code>
+                <p>These commands enable CDP on the router and display a list of neighboring devices connected to the router.</p>
+            </div>
+        </div>
+
+        <h2>Banner Configuration on Cisco Devices</h2>
+
+        <div class="command">
+            <h3>Set Up a Message of the Day (MOTD) Banner</h3>
+            <code>
+                    Router(config)# <b>banner motd # [Your Message Here] #</b>
+                </code>
+            <p>This command configures a Message of the Day (MOTD) banner that is displayed to users when they log in to the device.</p>
+        </div>
+
+        <div class="command">
+            <h3>Set Up a Login Banner</h3>
+            <code>
+                    Router(config)# <b>banner login # [Your Login Message Here] #</b>
+                </code>
+            <p>This command configures a login banner that appears before the login prompt on the device.</p>
+        </div>
+
+        <div class="command">
+            <h3>Set Up an Exec Banner</h3>
+            <code>
+                    Router(config)# <b>banner exec # [Your Exec Message Here] #</b>
+                </code>
+            <p>This command configures an EXEC banner that appears after login but before the EXEC prompt.</p>
+        </div>
+
+
+        <h2>Interface Configuration Commands</h2>
+        <div class="command">
+            <h3>Configure Interface Description</h3>
+            <code>R1(config-if)# <b> int [interface][port number]</b> <br>
+                R1(config-if)# <b>description [Description]</b></code>
+            <p>This command configures the description for a specific interface, which helps in identifying the purpose of the interface.</p>
+        </div>
+
+        <div class="command">
+            <h3>Configure Serial Interface and IP Address</h3>
+            <code>R1(config-if)# <b>int [interface][port number] </b><br>
+                R1(config-if)# <b>ip address [IP/v6 Address] [Subnet Mask]</b> <br>
+                R1(config-if)# <b>no shutdown</b><br>
+                R1(config-if)# <b>exit</b></code>
+            <p>This command configures a serial interface with an IP address and enables the interface.</p>
+        </div>
+
+        <div class="command">
+            <h3>Configure Hostname Mapping</h3>
+            <code>R1(config)# <b>ip host [user-defined name] [IP/v6 Address]</b></code>
+            <p>This command creates a static hostname-to-address mapping in the router's host table, allowing the router to resolve the specified hostname to an IP address.</p>
+        </div>
+
+        <h2>Static Routing Protocol</h2>
+        <div class="command">
+            <code>
+                    Router(config)# <b>ip route [destination_network] [subnet_mask] [interface_to_exit]</b><br>
+                    
+                </code>
+            <p>
+                It specify the name of the local interface.
+            </p>
+
+            <code>
+                    Router(config)# <b>ip route [destination_network] [subnet_mask] [next_hop_ip]</b><br>
+                    
+                </code>
+            <p>
+                It specify the IP address of the next-hop router.
+            </p>
+        </div>
+
+        <h2>TCP/IP Protocol Configuration</h2>
+
+        <div class="command">
+            <h3>Configure SSH on Router</h3>
+            <code>
+                Router(config)# <b>hostname R1</b><br>
+                R1(config)# <b>ip domain name tamaraw</b><br>
+                R1(config)# <b>crypto key generate rsa</b><br><br>
+                <i>How many bits in the modulus [512]: 2048</i><br><br>
+                R1(config)# <b>ip ssh version 2</b><br>
+                R1(config)# <b>line vty 0 4</b><br>
+                R1(config-line)# <b>transport input ssh</b><br>
+                R1(config-line)# <b>login local</b><br>
+                R1(config)# <b>username admin password sshtamaraw</b>
+            </code>
+            <p>These commands configure SSH on the router, set up the domain name, generate RSA keys, and create a user account for SSH access.</p>
+        </div>
+
+        <div class="command">
+            <h3>Configure Telnet Access</h3>
+            <code>
+                Router(config)# <b>line vty 0 4</b><br>
+                R1(config-line)# <b>transport input telnet</b><br>
+                R1(config-line)# <b>login local</b>
+            </code>
+            <p>These commands configure Telnet access for the router by defining virtual terminal lines (VTY) 0 through 4, which are used for remote management. The command <code>line vty 0 4</code> selects these lines for configuration. The <code>transport input telnet</code>                command enables Telnet as the remote access protocol on these lines. Finally, <code>login local</code> configures the router to use local user accounts for authentication, requiring users to log in with credentials stored on the router.</p>
+        </div>
+
+    </div>
+
+    <br>
+    <div class="container">
+        <div class="command-section">
+            <h1 style="color: red;">Dynamic Routing Protocols</h1>
+
+            <h2>Routing Information Protocol (RIP)</h2>
+
+            <div class="command">
+                <h3>Router R1</h3>
+                <code>R1(config)# <b>router rip</b><br>
+                R1(config-router)# <b>version 2</b><br>
+                R1(config-router)# <b>network [network address 1]</b><br>
+                R1(config-router)# <b>network [network address 2]</b><br>
+                R1(config-router)# <b>network [network address 3]</b><br>
+                R1(config-router)# <b>do show ip route</b></code>
+                <p>This command sequence configures RIP on Router R1, specifying the RIP version, networks to be included, and displays the routing table.</p>
+            </div>
+
+            <div class="command">
+                <h3>Router R2</h3>
+                <code>R2(config)# <b>router rip</b><br>
+                R2(config-router)# <b>version 2</b><br>
+                R2(config-router)# <b>network [network address 1]</b><br>
+                R2(config-router)# <b>network [network address 2]</b><br>
+                R2(config-router)# <b>exit</b><br>
+                R2(config)# <b>do show ip route</b></code>
+                <p>This command sequence configures RIP on Router R2, specifying the RIP version, networks to be included, and displays the routing table.</p>
+            </div>
+
+
+            <h2>Enhanced Interior Gateway Routing Protocol (EIGRP)</h2>
+            <div class="command">
+
+                <code>R1(config)# <b>router eigrp [AS_number] (ex: 1, 10, 100, 111)</b><br>
+                R1(config-router)# <b>no auto-summary</b> <br>
+                R1(config-router)# <b>network [network_address] [subnet_mask]</b>
+                </code>
+                <p>EIGRP is a Cisco proprietary routing protocol. It is one of the most popular and widely used routing protocols.</p>
+
+                <p>Configuring EIGRP is similar to RIP. The “1” is the AS number, and it has to be the same on all routers! We require the no auto-summary command because by default EIGRP behaves classful, and we want it to be classless.</p>
+            </div>
+
+            <div class="section">
+                <h2 class="subtitle ipv4">IPv6</h2>
+            </div>
+
+            <div class="command">
+                <h3>Router R1</h3>
+                <code>
+                R1(config)# <b>ipv6 unicast-routing</b><br>
+                R1(config)# <b>ipv6 router eigrp 100</b><br>
+                R1(config-rtr)# <b>router-id 1.1.1.1</b><br>
+                R1(config-rtr)# <b>no shutdown</b><br><br>
+
+                R1(config)# <b>int s0/0/0</b><br>
+                R1(config-if)# <b>ipv6 eigrp 100</b><br>
+                R1(config)# <b>int g0/0/0</b><br>
+                R1(config-if)# <b>ipv6 eigrp 100</b><br><br>
+
+            </code>
+                <p>IPv6 EIGRP configuration involves enabling IPv6 routing and setting up EIGRP with a router ID on each router. Ensure all routers in the EIGRP AS (Autonomous System) use the same AS number.</p>
+            </div>
+
+            <div class="command">
+                <h3>Router R2</h3>
+                <code>
+                R2(config)# <b>ipv6 unicast-routing</b><br>
+                R2(config)# <b>ipv6 router eigrp 100</b><br>
+                R2(config-rtr)# <b>router-id 2.2.2.2</b><br>
+                R2(config-rtr)# <b>no shutdown</b><br><br>
+
+                R2(config)# <b>int s0/0/0</b><br>
+                R2(config-if)# <b>ipv6 eigrp 100</b><br>
+                R2(config)# <b>int g0/0/0</b><br>
+                R2(config-if)# <b>ipv6 eigrp 100</b>
+            </code>
+            </div>
+
+            <h2>Hot Standby Router Protocol Configuration</h2>
+            <div class="image-container">
+                <img src="./Picture3.jpg" alt="Layer 3 Switching Diagram">
+            </div>
+
+            <div class="command">
+                <code>
+                R1(config)# int g0/1 | int g0/1.10 | int vlan [number]<br>
+                R1(config-if)# <b>standby version 2</b><br>
+                R1(config-if)# <b>standby [HSRP number] ip [network address]</b><br>
+                R1(config-if)# <b>standby [HSRP number] priority [priority number]</b><br>
+                R1(config-if)# <b>standby [HSRP number] preempt</b>
+            </code>
+                <p>This configuration sets up Hot Standby Router Protocol (HSRP) on a router interface:</p>
+                <ul>
+                    <li><code>int g0/1 | int g0/1.10 | int vlan [number]</code>: Selects the interface or VLAN for HSRP configuration.</li>
+                    <li><code>standby version 2</code>: Configures the HSRP to use version 2, which provides additional features over version 1.</li>
+                    <li><code>standby [HSRP number] ip [network address]</code>: Assigns the virtual IP address that clients will use as their default gateway.</li>
+                    <li><code>standby [HSRP number] priority [priority number]</code>: Sets the priority for the router in the HSRP group. Higher priority values increase the likelihood of this router becoming the active router.</li>
+                    <li><code>standby [HSRP number] preempt</code>: Enables the router to take over as the active router if it has a higher priority or becomes available after a failure.</li>
+                </ul>
+            </div>
+
+
+            <h2>Dynamic Host Configuration Protocol (DHCP)</h2>
+            <div class="command">
+                <code>
+                    R1(config)# <b>ip dhcp pool [Name]</b><br>
+                    R1(dhcp-config)# <b>network [Network Address]</b><br>
+                    R1(dhcp-config)# <b>default-router [Router's_Address]</b><br>
+                    R1(dhcp-config)# <b>dns-server [Network_Address]</b><br>
+                    R1(dhcp-config)# <b>exit</b><br>
+                    R1(config)# <b>ip dhcp excluded-address [start_ip_address] [end_ip_address]</b>
+                </code>
+                <p>This command sequence sets up a DHCP pool on a Cisco router, specifies the network range, default gateway, DNS server, and excludes certain IP addresses from the DHCP range.</p>
+            </div>
+
+            <div class="section">
+                <h2 class="subtitle ipv4">Inter-VLAN</h2>
+            </div>
+
+            <div class="command">
+                <code>
+                R1(config)# <b>int gi0/2.10</b> [Sub-interfaces]<br>
+                R1(config-subif)# <b>ip helper-address [Address]</b><br>
+                Router(config)# <b>service dhcp vlan [Vlan_Number]</b>
+            </code>
+                <p>This configuration sets up DHCP on a router:</p>
+                <p><code>int gi0/2.10 [Sub-interfaces]</code>: Selects the sub-interface (or VLAN interface) for DHCP configuration.</p>
+                <p><code>ip helper-address 172.16.24.2</code>: Configures the router to forward DHCP requests to the specified DHCP server.</p>
+                <p><code>service dhcp vlan [vlan number]</code>: Enables DHCP service for the specified VLAN.</p>
+            </div>
+
+        </div>
+    </div>
+
+    <br>
+    <div class="container">
+        <div class="command-section">
+            <h1 style="color: red;">Switch Configuration</h1>
+
+            <h2>Switch Virtual Interface (SVI)</h2>
+            <div class="command">
+                <h3>Configure SVI</h3>
+                <code>
+                    Switch> <b>enable</b><br>
+                    Switch# <b>conf t</b><br>
+                    Switch(config)# <b>hostname [Name]</b><br>
+                    SWMain(config)# <b>int vlan 1</b><br>
+                    SWMain(config-if)# <b>ip address [Address] [Subnet_Mask]</b><br>
+                    SWMain(config-if)# <b>no shutdown</b><br>
+                    SWMain(config-if)# <b>exit</b>
+                </code>
+                <p>This command sequence configures a Switch Virtual Interface (SVI) on the switch, assigns an IP address to VLAN 1, and ensures the interface is up and running.</p>
+            </div>
+
+            <div class="command">
+                <h3>Access the Switch Remotely via Telnet</h3>
+                <code>
+                    R2# <b>telnet [vlan address]</b><br>
+                    
+                    <em>Trying [vlan address] ...Open</em>
+                    <br>
+                    <br>
+                    User Access Verification<br>
+                    Password: <b>telnet [password]</b><br>
+                    SWMain> <b>enable</b><br>
+                    Password: <b>class</b>
+                </code>
+                <p>This command sequence demonstrates how to remotely access the switch via Telnet, authenticate with the provided password, and enter privileged EXEC mode.</p>
+            </div>
+
+            <h2>Switch Port Security Configuration</h2>
+
+            <div class="command">
+                <h3>Configure Port Security on Multiple Switch Ports</h3>
+                <code>
+            SWMain(config)# <b>int range fa0/1-0/24</b><br>
+            SWMain(config-if)# <b>switchport mode access</b><br>
+            SWMain(config-if)# <b>switchport port-security</b><br>
+            SWMain(config-if)# <b>switchport port-security maximum [Number of allowed end devices (ex. 1)]</b><br>
+            SWMain(config-if)# <b>switchport port-security mac-address sticky</b><br>
+            SWMain(config-if)# <b>switchport port-security violation [shut | restrict | protect]</b>
+        </code>
+                <p>This sequence of commands sets up port security on multiple switch ports, defining the maximum number of devices allowed, making MAC addresses sticky, and specifying the violation mode.</p>
+            </div>
+
+            <h2>Configure VTP Domain and Password</h2>
+            <div class="command">
+
+                <code>
+                SW1(config)# <b>vtp domain tamaraw</b><br>
+                SW1(config)# <b>vtp password tamaraw</b><br>
+                SW1# <b>show vtp status</b>
+            </code>
+                <p>These commands configure the VLAN Trunking Protocol (VTP) domain and password on a switch. The <code>vtp domain tamaraw</code> command sets the VTP domain name to "tamaraw", while <code>vtp password tamaraw</code> sets the password for
+                    VTP operations. The <code>show vtp status</code> command displays the current VTP configuration and status, allowing you to verify the settings.</p>
+            </div>
+
+            <h2>Configure VLANs and Verify VLAN Configuration</h2>
+            <div class="command">
+                <code>
+                SW1(config-vlan)# <b>vlan 500</b><br>
+                SW1(config-vlan)# <b>name students</b><br>
+                SW1(config-vlan)# <b>vlan 200</b><br>
+                SW1(config-vlan)# <b>name itso</b><br>
+                SW1(config-vlan)# <b>vlan 100</b><br>
+                SW1(config-vlan)# <b>name faculty</b><br>
+                SW1# <b>show vlan brief</b>
+            </code>
+                <p>These commands create and name VLANs on a switch. VLANs 500, 200, and 100 are configured with the names "students", "itso", and "faculty", respectively. The <code>show vlan brief</code> command displays a summary of the VLAN configuration,
+                    showing the VLAN IDs and names for verification. Ensure to perform these configurations on all switches that are interconnected within the network.</p>
+            </div>
+
+            <div class="command">
+                <h3>Assign Switchports</h3>
+                <code>
+                S1(config)# <b>int range fa0/2-0/3</b><br>
+                S1(config-if-range)# <b>switchport mode access</b><br>
+                S1(config-if-range)# <b>switchport access vlan [vlan number]</b>
+            </code>
+                <p>These commands configure a range of switch ports as access ports and assign them to a specified VLAN.</p>
+            </div>
+
+            <div class="command">
+                <h3>Configure the Voice VLAN Port</h3>
+                <code>
+                S1(config)# <b>int fa0/4</b><br>
+                S1(config-if-range)# <b>mls qos trust cos</b><br>
+                S1(config-if-range)# <b>switchport voice vlan [vlan number]</b>
+            </code>
+                <p>These commands configure a specific port for voice VLANs by trusting the CoS (Class of Service) value and assigning it to the designated voice VLAN.</p>
+            </div>
+
+            <div class="command">
+                <h3>Configure/Disable Unused Interfaces</h3>
+                <code>
+                SW1(config)# <b>int range fa0/4-fa0/24</b><br>
+                SW1(config-if-range)# <b>shutdown</b>
+            </code>
+                <p>This command disables a range of unused interfaces to prevent unnecessary network traffic and potential security risks.</p>
+            </div>
+
+            <div class="command">
+                <h3>Enable BPDU Guard</h3>
+                <code>
+                SW1(config)# <b>int fa0/2</b><br>
+                SW1(config-if)# <b>switchport mode access</b><br>
+                SW1(config-if)# <b>spanning-tree bpduguard enable</b>
+            </code>
+                <p>These commands enable BPDU Guard on an interface to prevent the switch from receiving Bridge Protocol Data Units (BPDUs) on that port, which helps protect the network from potential misconfigurations or attacks.</p>
+            </div>
+
+            <div class="command">
+                <h3>Verify VLAN Information</h3>
+                <code>
+                SW1# <b>show vlan summary</b><br>
+                SW1# <b>show interfaces fa0/18 switchport</b><br>
+                SW1# <b>show interfaces vlan [vlan-id]</b>
+            </code>
+                <p>These commands verify VLAN information by displaying a summary of all configured VLANs, details about specific interfaces, and VLAN interface configurations.</p>
+            </div>
+
+            <div class="command">
+                <h3>Change VLAN Port Membership</h3>
+                <code>
+                SW1(config)# <b>interface fa0/18</b><br>
+                SW1(config-if)# <b>no switchport access vlan</b>
+            </code>
+                <p>This command removes a switch port from its current VLAN assignment.</p>
+            </div>
+
+            <div class="command">
+                <h3>Delete VLANs</h3>
+                <code>
+                SW1(config)# <b>no vlan [vlan-id]</b>
+            </code>
+                <p>This command removes a VLAN from the switch configuration, deleting it from the VLAN database.</p>
+            </div>
+
+            <div class="command">
+                <h3>Configure VLAN Trunks</h3>
+                <code>
+                S1(config)# <b>interface gi0/1</b><br>
+                S1(config-if)# <b>switchport mode trunk</b><br>
+                S1(config-if)# <b>end</b>
+            </code>
+                <p>These commands configure a switch port as a trunk port, allowing it to carry traffic for multiple VLANs between switches and routers.</p>
+            </div>
+
+            <div class="command">
+                <h3>Configure Native VLAN</h3>
+                <code>
+                S1(config-if)# <b>switchport trunk native vlan 99</b>
+            </code>
+                <p>This command sets VLAN 99 as the native VLAN for the specified trunk interfaces, meaning that untagged traffic on the trunk port will be associated with VLAN 99.</p>
+            </div>
+
+            <div class="command">
+                <h3>Reset Trunk Configuration</h3>
+                <code>
+                S1(config)# <b>interface fa0/1</b><br>
+                S1(config-if)# <b>no switchport trunk allowed vlan</b><br>
+                S1(config-if)# <b>no switchport trunk native vlan</b><br>
+                S1(config-if)# <b>end</b>
+            </code>
+                <p>These commands reset the trunk configuration by removing any VLANs that were allowed on the trunk and clearing the native VLAN setting.</p>
+            </div>
+
+            <h2>EtherChannel Configuration</h2>
+            <div class="image-container">
+                <img src="./Picture2.jpg" alt="Layer 3 Switching Diagram">
+            </div>
+            <div class="command">
+                <code>
+                S1(config)# <b>interface fa0/1-5 <i>[which port | use range for multiple ports]</i></b><br>
+                S1(config-if-range)# <b>no switchport</b> <i>[omit if not needed]</i><br>
+                S1(config-if-range)# <b>channel-group [channel number] mode [auto, active, desirable]</b>
+            </code>
+                <p>Configures EtherChannel by grouping multiple interfaces into a single logical interface.</p>
+
+                <code>
+                S1(config)# <b>interface port-channel [channel number]</b><br>
+                S1(config-if)# <b>switchport trunk encapsulation dot1q</b><br>
+                S1(config-if)# <b>switchport mode trunk</b><br>
+                S1(config-if)# <b>feature [LACP | PAGP]</b>
+            </code>
+                <p>Configures the Port-Channel interface, sets trunking encapsulation to 802.1Q, and enables the desired EtherChannel protocol (LACP or PAGP).</p>
+            </div>
+
+        </div>
+    </div>
+
+    <br>
+    <div class="container">
+        <div class="command-section">
+            <h1 style="color: red;">Router-Switch Configuration</h1>
+
+            <h2>Router-on-a-Stick Inter-VLAN</h2>
+
+            <div class="command">
+                <h3>Router R1 </h3>
+                <code>
+                R1(config)# <b>int gi0/1</b><br>
+                R1(config-if)# <b>no shutdown</b><br><br>
+                
+                R1(config)# <b>int gi0/1.10</b><br>
+                R1(config-subif)# <b>encapsulation dot1Q 10</b><br>
+                R1(config-subif)# <b>ip address 172.17.10.1 255.255.255.0</b><br><br>
+                
+                R1(config)# <b>int gi0/1.20</b><br>
+                R1(config-subif)# <b>encapsulation dot1Q 20</b><br>
+                R1(config-subif)# <b>ip address 172.17.20.1 255.255.255.0</b><br><br>
+                
+                R1(config)# <b>int gi0/1.30</b><br>
+                R1(config-subif)# <b>encapsulation dot1Q 30</b><br>
+                R1(config-subif)# <b>ip address 172.17.30.1 255.255.255.0</b><br><br>
+                
+                R1(config)# <b>int gi0/1.99</b><br>
+                R1(config-subif)# <b>encapsulation dot1Q 99</b><br>
+                R1(config-subif)# <b>ip address 172.17.99.1 255.255.255.0</b>
+            </code>
+            </div>
+
+            <div class="command">
+                <h3>Switch S1</h3>
+                <code>
+                S1(config)# <b>int vlan 99</b><br>
+                S1(config-if)# <b>ip address 172.17.99.10 255.255.255.0</b><br>
+                S1(config-if)# <b>no shutdown</b><br><br>
+                
+                S1(config)# <b>vlan 10</b><br>
+                S1(config-vlan)# <b>name Faculty/Staff</b><br>
+                S1(config-vlan)# <b>vlan 20</b><br>
+                S1(config-vlan)# <b>name Students</b><br>
+                S1(config-vlan)# <b>vlan 30</b><br>
+                S1(config-vlan)# <b>name Guest(Default)</b><br>
+                S1(config-vlan)# <b>vlan 99</b><br>
+                S1(config-vlan)# <b>name Management</b><br><br>
+                
+                S1(config)# <b>int range f0/1 - 5</b><br>
+                S1(config-if-range)# <b>switchport mode access</b><br>
+                S1(config-if-range)# <b>switchport access vlan 10</b><br><br>
+                
+                S1(config)# <b>int range f0/6 - 10</b><br>
+                S1(config-if-range)# <b>switchport mode access</b><br>
+                S1(config-if-range)# <b>switchport access vlan 20</b><br><br>
+                
+                S1(config)# <b>interface range f0/11 - 15</b><br>
+                S1(config-if-range)# <b>switchport mode access</b><br>
+                S1(config-if-range)# <b>switchport access vlan 30</b><br><br>
+                
+                S1(config)# <b>int g0/1</b><br>
+                S1(config-if)# <b>switchport mode trunk</b><br>
+                S1(config-if)# <b>switchport trunk native vlan [number]</b><br><br>
+                
+                S1(config)# <b>interface range f0/1-5,g0/2</b><br>
+                S1(config-if-range)# <b>shutdown</b>
+            </code>
+            </div>
+
+            <h2>Layer 3 Switching and Inter-VLAN Routing</h2>
+
+            <div class="image-container">
+                <img src="./Picture1.jpg" alt="Layer 3 Switching Diagram">
+            </div>
+            <div class="command">
+                <h3>Configure G0/2 as a Routed Port on MLS</h3>
+                <code>
+                MLS(config)# <b>int g0/2</b><br>
+                MLS(config-if)# <b>no switchport</b><br>
+                MLS(config-if)# <b>ip address 209.165.200.225 255.255.255.252</b>
+            </code>
+            </div>
+
+            <div class="command">
+                <h3>Configure and Activate SVI Interfaces</h3>
+                <code>
+                MLS(config)# <b>int vlan 10</b><br>
+                MLS(config-if)# <b>ip address 192.168.10.254 255.255.255.0</b><br><br>
+                
+                MLS(config)# <b>int vlan 20</b><br>
+                MLS(config-if)# <b>ip address 192.168.20.254 255.255.255.0</b><br>
+                MLS(config-if)# <b>ipv6 address 2001:db8:acad:20::1/64</b><br><br>
+                
+                MLS(config)# <b>interface vlan 30</b><br>
+                MLS(config-if)# <b>ip address 192.168.30.254 255.255.255.0</b><br>
+                MLS(config-if)# <b>ipv6 address 2001:db8:acad:30::1/64</b><br><br>
+                
+                MLS(config)# <b>int vlan 99</b><br>
+                MLS(config-if)# <b>ip address 192.168.99.254 255.255.255.0</b>
+            </code>
+            </div>
+
+            <h2>Spanning Tree Protocol (STP) Configuration</h2>
+
+            <div class="command">
+                <h3>Enable STP and View STP Information</h3>
+                <code>
+                Router# <b>show spanning-tree</b>
+            </code>
+                <p>Displays information about the Spanning Tree Protocol (STP) status and topology for each VLAN.</p>
+            </div>
+
+
+            <div class="command">
+                <h3>Enable STP Globally</h3>
+                <code>
+                S1(config)# <b>spanning-tree</b>
+            </code>
+            </div>
+
+            <div class="command">
+                <h3>Enable STP on a VLAN</h3>
+                <code>
+                S1(config)# <b>vlan 10</b><br>
+                S1(config-vlan-10)# <b>spanning-tree</b>
+            </code>
+            </div>
+
+            <div class="command">
+                <h3>Enable STP on an Individual Port</h3>
+                <code>
+                S1(config)# <b>interface 1/1/1</b><br>
+                S1(config-if-e1000-1/1/1)# <b>spanning-tree</b>
+            </code>
+            </div>
+
+            <div class="command">
+                <h3>Enable STP on a LAG Port</h3>
+                <code>
+                S1(config)# <b>interface lag 1</b><br>
+                S1(config-lag-if-lg1)# <b>spanning-tree</b>
+            </code>
+            </div>
+
+            <div class="command">
+                <h3>Change STP Bridge Parameters</h3>
+                <code>
+                S1(config-vlan-10)# <b>spanning-tree forward-delay 4 hello-time 3 max-age 10 priority 0</b>
+            </code>
+            </div>
+
+            <div class="command">
+                <h3>Change STP Port Parameters</h3>
+                <code>
+                S1(config-vlan-10)# <b>spanning-tree ethernet 1/1/1 path-cost 15 priority 64</b>
+            </code>
+            </div>
+
+            <div class="command">
+                <h3>Enable STP Protection</h3>
+                <code>
+                S1(config-if-e1000-1/1/1)# <b>stp-protect</b>
+            </code>
+                <p>The <code>stp-protect</code> command causes the port to drop STP BPDUs received on this port.</p>
+            </div>
+
+            <div class="command">
+                <h3>Clear STP Protection Statistics</h3>
+                <code>
+                S1(config)# <b>clear stp-protect-statistics</b><br>
+                S1(config)# <b>clear stp-protect-statistics ethernet 1/1/1</b><br>
+                S1(config)# <b>clear stp-protect-statistics lag 1</b>
+            </code>
+            </div>
+
+            <h3 style="color: darkgoldenrod;">Standard Spanning Tree Protocol (MSTP)</h3>
+            <div class="command">
+                <h3>Configure STP Mode</h3>
+                <code>
+                S1(config)# <b>spanning-tree mode [stp | rstp | mstp]</b>
+            </code>
+                <p>This command enables the standard Spanning Tree Protocol on a specified VLAN.</p>
+            </div>
+
+            <h3 style="color: darkgoldenrod;">Rapid Spanning Tree Protocol (MSTP)</h3>
+            <div class="command">
+                <h3>Enable RSTP</h3>
+                <code>
+                Router(config)# <b>spanning-tree mode rapid-pvst</b>
+            </code>
+                <p>Enables Rapid Spanning Tree Protocol (RSTP) on the router.</p>
+            </div>
+
+            <h3 style="color: darkgoldenrod;">Multiple Spanning Tree Protocol (MSTP)</h3>
+
+            <div class="command">
+                <h3>Enable MSTP</h3>
+                <code>
+                Router(config)# <b>spanning-tree mst [instance_number]</b>
+            </code>
+                <p>Enables Multiple Spanning Tree Protocol (MSTP) and assigns a specific instance number to the MSTP configuration.</p>
+            </div>
+
+            <div class="command">
+                <h3>View MSTP Configuration</h3>
+                <code>
+                Router# <b>show spanning-tree mst configuration</b>
+            </code>
+                <p>Displays information about the MSTP configuration, including the instances and their mappings to VLANs.</p>
+            </div>
+
+            <br>
+            <div class="command">
+                <h3>Enable STP Loopback Guard (if needed)</h3>
+                <code>
+                S1(config)# <b>spanning-tree loopback-guard</b>
+            </code>
+                <p>Enables loopback guard to prevent BPDU attacks.</p>
+            </div>
+
+            <div class="command">
+                <h3>Root Guard Configuration</h3>
+                <code>
+                S1(config)# interface fa0/1 <i>[which port]</i><br>
+                S1(config-if)# <b>spanning-tree guard root</b>
+            </code>
+                <p>Enables Root Guard on the specified port. The port will go to a Listening state (for STP) or discarding state (for RSTP and MSTP) if it receives a superior BPDU.</p>
+            </div>
+
+            <div class="command">
+                <h3>Enabling PortFast</h3>
+                <p>Option 1:</p>
+                <code>
+                S1(config)# <b>set spantree portfast [enable | disable]</b>
+            </code>
+                <p>Option 2:</p>
+                <code>
+                S1(config)# <b>spanning-tree portfast</b>
+            </code>
+                <p>To enable PortFast on a trunk port:</p>
+                <code>
+                S1(config)# <b>set spantree portfast [enable | disable] trunk</b>
+            </code>
+            </div>
+
+            <div class="command">
+                <h3>Verify the Root Bridge</h3>
+                <code>
+                S1(config)# <b>spanning-tree vlan [vlan number] root [primary | secondary]</b>
+            </code>
+                <p>Verifies the root bridge status for the specified VLAN.</p>
+            </div>
+
+            <div class="command">
+                <h3>Configure BPDU Guard</h3>
+                <p>Option 1:</p>
+                <code>
+                S1(config)# <b>spanning-tree bpduguard enable</b>
+            </code>
+                <p>Option 2:</p>
+                <code>
+                S1(config)# <b>set spantree portfast bpdu-guard module/port [disable | enable | default]</b>
+            </code>
+            </div>
+        </div>
+    </div>
+
+    <br>
+    <div class="container">
+        <div class="command-section">
+            <h1 style="color: red;">Wireless Network Configuration</h1>
+
+            <div class="command">
+                <h3>A. Configure the Internet Port</h3>
+                <p>Navigate to <code>Setup &gt; Basic Setup &gt; Internet Setup</code>:</p>
+                <ul>
+                    <li>Configure Static IP (or Automatic Config - DHCP)</li>
+                    <li>Save</li>
+                </ul>
+            </div>
+            <div class="image-container">
+                <img src="./Picture5.jpg" alt="Layer 3 Switching Diagram">
+            </div>
+            <div class="command">
+                <h3>B. Configure the Wireless Settings</h3>
+                <p>Navigate to <code>Wireless &gt; Basic Wireless Settings</code>:</p>
+
+                <ul>
+                    <li>Network Name (SSID)</li>
+                    <li>Standard Channel</li>
+                </ul>
+
+                <p>Navigate to <code>Wireless &gt; Wireless Security</code>:</p>
+
+            </div>
+
+            <div class="image-container">
+                <img src="./Picture5.jpg" alt="Layer 3 Switching Diagram">
+            </div>
+
+            <div class="command">
+                <h3>C. Access Point</h3>
+                <p>Connect Port 0 of the Access Point to an available Ethernet port of the Wireless Router (WR) using a straight-through Ethernet cable.</p>
+                <p>Navigate to <code>Config &gt; Interface Heading &gt; Port 1</code>:</p>
+                <ul>
+                    <li>SSID field: [SSID name from wireless router]</li>
+                    <li>Security Mode: WPA2-PSK [As per instructions]</li>
+                    <li>Passphrase</li>
+                </ul>
+            </div>
+
+            <div class="command">
+                <h3>D. Administrative Task</h3>
+                <p>Navigate to <code>Administration &gt; Management</code>:</p>
+                <ul>
+                    <li>Change Router Password</li>
+                </ul>
+
+                <p>Navigate to <code>Setup &gt; Basic Setup</code>:</p>
+                <ul>
+                    <li>Change DHCP Address Range</li>
+                    <li>Network Setup:
+                        <ul>
+                            <li>Change IP Address</li>
+                            <li>Max Number of Users</li>
+                            <li>DNS Server</li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="image-container">
+                <img src="./Picture6.jpg" alt="Layer 3 Switching Diagram">
+            </div>
+        </div>
+    </div>
+
+    <br>
+    <div class="container">
+        <div class="command-section">
+            <h1 style="color: red;">Network Risk Mitigation</h1>
+            <h2>Mitigate DHCP Attacks</h2>
+            <div class="command">
+                <code>
+        S1(config)# <b>ip dhcp snooping</b><br>
+        S1(config)# int fa0/1<br>
+        S1(config-if)# <b>ip dhcp snooping trust</b><br>
+        S1(config-if)# exit<br>
+        S1(config)# int range fa0/5-24<br>
+        S1(config-if)# <b>ip dhcp snooping limit rate 6</b><br>
+        S1(config-if)# exit<br>
+        S1(config)# <b>ip dhcp snooping vlan 5, 10, 50-52</b><br>
+        S1(config-if)# end
+    </code>
+                <p>Enables DHCP snooping to prevent unauthorized DHCP servers and limits the rate of DHCP messages. Configures trusted ports and specifies VLANs for DHCP snooping.</p>
+            </div>
+
+            <h2>Mitigate ARP Attacks</h2>
+            <div class="command">
+                <code>
+        S1(config)# <b>ip dhcp snooping</b><br>
+        S1(config)# <b>ip dhcp snooping vlan 10</b><br>
+        S1(config)# <b>ip arp inspection vlan 10</b><br>
+        S1(config)# int fa0/24<br>
+        S1(config-if)# <b>ip dhcp snooping trust</b><br>
+        S1(config-if)# <b>ip arp inspection trust</b>
+    </code>
+                <p>Enables DHCP snooping and ARP inspection to prevent ARP spoofing attacks. Configures trusted ports for both DHCP snooping and ARP inspection.</p>
+            </div>
+
+        </div>
+    </div>
+
+    <br>
+    <div class="container">
+        <div class="command-section">
+            <h1 style="color: red;">Layer 3 Configuration</h1>
+
+            <h2>EtherChannel</h2>
+
+            <div class="image-container">
+                <img src="./layer-3-etherchannel-1024x222.webp" alt="Layer 3 Switching Diagram">
+            </div>
+
+            <h3>Switch1 Configuration</h3>
+            <div class="command">
+                <code>
+        Switch1(config)# <b>interface range FastEthernet 0/1 - 2</b><br>
+        Switch1(config-if-range)# <b>no switchport</b><br>
+        Switch1(config-if-range)# <b>channel-group 1 mode desirable</b><br>
+        Switch1(config-if-range)# <b>interface port-channel 1</b><br>
+        Switch1(config-if)# <b>no switchport</b><br>
+        Switch1(config-if)# <b>ip address 192.168.1.1 255.255.255.0</b>
+    </code>
+                <p>Configures the Layer 3 EtherChannel on Switch1 by creating a port-channel interface, assigning it an IP address, and setting the channel group mode.</p>
+            </div>
+
+            <h3>Switch2 Configuration</h3>
+            <div class="command">
+                <code>
+        Switch2(config)# <b>interface range FastEthernet 0/1 - 2</b><br>
+        Switch2(config-if-range)# <b>no switchport</b><br>
+        Switch2(config-if-range)# <b>channel-group 2 mode desirable</b><br>
+        Switch2(config-if-range)# <b>interface port-channel 2</b><br>
+        Switch2(config-if)# <b>no switchport</b><br>
+        Switch2(config-if)# <b>ip address 192.168.1.2 255.255.255.0</b>
+    </code>
+                <p>Configures the Layer 3 EtherChannel on Switch2 similarly to Switch1, but with a different channel group number and IP address.</p>
+            </div>
+
+            <h2>Layer 3 EtherChannel Verification</h2>
+            <div class="command">
+                <p>We can verify if our Layer 3 EtherChannel configuration is working as expected by performing the following:</p>
+                <p><b>Pings from Switch1 to Switch2</b></p>
+                <code>
+        Switch1# <b>ping 192.168.1.2</b><br>
+        Type escape sequence to abort.<br>
+        Sending 5, 100-byte ICMP Echos to 192.168.1.2, timeout is 2 seconds:<br>
+        .!!!!<br>
+        Success rate is 80 percent (4/5), round-trip min/avg/max = 2/3/5 ms
+    </code>
+
+                <p><b>Pings from Switch2 to Switch1</b></p>
+                <code>
+        Switch2# <b>ping 192.168.1.1</b><br>
+        Type escape sequence to abort.<br>
+        Sending 5, 100-byte ICMP Echos to 192.168.1.1, timeout is 2 seconds:<br>
+        !!!!!<br>
+        Success rate is 100 percent (5/5), round-trip min/avg/max = 3/3/4 ms
+    </code>
+
+                <p>To check the Group state, use the ‘show etherchannel‘ command in global configuration mode:</p>
+                <code>
+        Switch1# <b>show etherchannel</b><br>
+        Channel-group listing:<br>
+        ----------------------<br>
+        Group: 1<br>
+        ----------<br>
+        Group state = L3<br>
+        Ports: 2 Maxports = 4<br>
+        Port-channels: 1 Max Port-channels = 1<br>
+        Protocol: PAgP<br>
+        Minimum Links: 0
+    </code>
+
+                <p>To check the Port-channel status, use the ‘show etherchannel port-channel‘ command:</p>
+                <code>
+        Switch1# <b>show etherchannel port-channel</b><br>
+        Channel-group listing:<br>
+        ----------------------<br>
+        Group: 1<br>
+        ----------<br>
+        Port-channels in the group:<br>
+        ---------------------------<br>
+        Port-channel: Po1<br>
+        ------------<br>
+        Age of the Port-channel = 0d:00h:40m:39s<br>
+        Logical slot/port = 16/0 Number of ports = 2<br>
+        GC = 0x00010001 HotStandBy port = null<br>
+        Passive port list = Fa0/1 Fa0/2<br>
+        Port state = Port-channel L3-Ag Ag-Inuse<br>
+        Protocol = PAgP<br>
+        Port security = Disabled<br>
+        Ports in the Port-channel:<br>
+        Index Load Port EC state No of bits<br>
+        +------+------ +------------------+-----------<br>
+        0 00 Fa0/1 Desirable-Sl 0<br>
+        0 00 Fa0/2 Desirable-Sl 0<br>
+        Time since last port bundled: 0d:00h:35m:01s Fa0/2
+    </code>
+            </div>
+
+
+        </div>
+    </div>
+
+    <br>
+    <div class="container">
+        <div class="command-section">
+            <h1 style="color: red;">Networking 3</h1>
+
+            <h2>Single-Area OSPFv2 Configuration</h2>
+            <div class="image-container"> <img src="./Picture7.jpg" alt="Layer 3 Switching Diagram"> </div>
+
+            <h3>Router P2P-1</h3>
+            <div class="command">
+                <code>
+                    P2P-1(config)# <b>router ospf 10</b><br>
+                    P2P-1(config-router)# <b>network 10.0.0.0 0.0.0.3 area 0</b><br>
+                    P2P-1(config-router)# <b>network 10.0.0.8 0.0.0.3 area 0</b><br>
+                    P2P-1(config-router)# <b>network 10.0.0.12 0.0.0.3 area 0</b>
+                </code>
+                <p>Configures OSPF process ID 10 on P2P-1 and specifies the networks to be included in OSPF area 0 using inverse masks.</p>
+            </div>
+
+            <h3>Router P2P-2</h3>
+            <div class="command">
+                <code>
+                    P2P-2(config)# <b>router ospf 10</b><br>
+                    P2P-2(config-router)# <b>network 10.0.0.0 0.0.0.3 area 0</b><br>
+                    P2P-2(config-router)# <b>network 10.0.0.4 0.0.0.3 area 0</b><br>
+                    P2P-2(config-router)# <b>network 192.168.1.0 0.0.0.255 area 0</b><br>
+                    P2P-2(config-router)# <b>network 192.168.2.0 0.0.0.255 area 0</b>
+                </code>
+                <p>Configures OSPF process ID 10 on P2P-2 and specifies the networks to be included in OSPF area 0 using inverse masks.</p>
+            </div>
+
+            <h3>Router P2P-3</h3>
+            <div class="command">
+                <code>
+                    P2P-3(config)# <b>router ospf 10</b><br>
+                    P2P-3(config-router)# <b>network 10.0.0.4 0.0.0.3 area 0</b><br>
+                    P2P-3(config-router)# <b>network 10.0.0.8 0.0.0.3 area 0</b><br>
+                    P2P-3(config-router)# <b>network 192.168.3.0 0.0.0.15 area 0</b>
+                </code>
+                <p>Configures OSPF process ID 10 on P2P-3 and specifies the networks to be included in OSPF area 0 using inverse masks.</p>
+            </div>
+
+            <hr>
+            <h3>Router BC-1</h3>
+            <div class="command">
+                <code>
+        BC-1(config)# <b>interface GigabitEthernet0/0/0</b><br>
+        BC-1(config-if)# <b>ip ospf 10 area 0</b><br>
+        BC-1(config)# <b>interface Serial0/1/0</b><br>
+        BC-1(config-if)# <b>ip ospf 10 area 0</b>
+    </code>
+                <p>Activates OSPF process ID 10 on the interfaces GigabitEthernet0/0/0 and Serial0/1/0 of BC-1, assigning them to area 0.</p>
+            </div>
+
+            <div class="command">
+                <code>
+                    BC-1(config)# <b>router ospf 10</b><br>
+                    BC-1(config-router)# <b>router-id 6.6.6.6</b>
+                </code>
+                <p>Sets the OSPF router ID to 6.6.6.6 for Router BC-1 in OSPF process 10.</p>
+            </div>
+
+
+            <h3>Router BC-2 </h3>
+            <div class="command">
+                <code>
+        BC-2(config)# <b>interface GigabitEthernet0/0/0</b><br>
+        BC-2(config-if)# <b>ip ospf 10 area 0</b><br>
+        BC-2(config)# <b>interface GigabitEthernet0/0/1</b><br>
+        BC-2(config-if)# <b>ip ospf 10 area 0</b>
+    </code>
+                <p>Activates OSPF process ID 10 on the interfaces GigabitEthernet0/0/0 and GigabitEthernet0/0/1 of BC-2, assigning them to area 0.</p>
+            </div>
+
+            <div class="command">
+                <code>
+                    BC-2(config)# <b>router ospf 10</b><br>
+                    BC-2(config-router)# <b>router-id 5.5.5.5</b>
+                </code>
+                <p>Sets the OSPF router ID to 5.5.5.5 for Router BC-2 in OSPF process 10.</p>
+            </div>
+
+
+            <h3>Router BC-3</h3>
+            <div class="command">
+                <code>
+        BC-3(config)# <b>interface GigabitEthernet0/0/0</b><br>
+        BC-3(config-if)# <b>ip ospf 10 area 0</b><br>
+        BC-3(config)# <b>interface GigabitEthernet0/0/1</b><br>
+        BC-3(config-if)# <b>ip ospf 10 area 0</b>
+    </code>
+                <p>Activates OSPF process ID 10 on the interfaces GigabitEthernet0/0/0 and GigabitEthernet0/0/1 of BC-3, assigning them to area 0.</p>
+            </div>
+
+            <div class="command">
+                <code>
+                    BC-3(config)# <b>router ospf 10</b><br>
+                    BC-3(config-router)# <b>router-id 4.4.4.4</b>
+                </code>
+                <p>Sets the OSPF router ID to 4.4.4.4 for Router BC-3 in OSPF process 10.</p>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const commands = document.querySelectorAll('.command h3');
+
+            commands.forEach(command => {
+                command.addEventListener('click', () => {
+                    const content = command.nextElementSibling;
+                    if (content.style.display === 'none' || content.style.display === '') {
+                        content.style.display = 'block';
+                    } else {
+                        content.style.display = 'none';
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>
