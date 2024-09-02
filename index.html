@@ -15,8 +15,8 @@
     </div>
     <br><br>
     <!-- Collapsible IPv4 and IPv6 Tables -->
-    <div class="container">
-        <div class="collapsible-section">
+    <div class="container" style="background: none;">
+        <div class="collapsible-section" style="background: none; border: none;">
             <h3 class="collapsible-header">IPv4 Address Guide</h3>
             <div class="collapsible-content">
                 <table>
@@ -55,6 +55,27 @@
                         </tr>
                     </tbody>
                 </table>
+
+                <!-- IPv4 Subnet Calculator -->
+                <div class="ipv4-calculator">
+                    <h3>IPv4 Subnet Calculator</h3>
+                    <label for="ip">Enter IP Address (e.g., 192.168.0.1/24):</label>
+                    <input type="text" id="ip" placeholder="192.168.0.1/24">
+                    <button onclick="calculateSubnet()">Calculate</button>
+
+                    <!-- Display Subnet Calculation Results -->
+                    <div id="subnet-results" style="display:none;">
+                        <h4>Results:</h4>
+                        <p id="address"></p>
+                        <p id="netmask"></p>
+                        <p id="wildcard"></p>
+                        <p id="network"></p>
+                        <p id="broadcast"></p>
+                        <p id="hostmin"></p>
+                        <p id="hostmax"></p>
+                        <p id="hosts"></p>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -105,17 +126,13 @@
             </div>
         </div>
     </div>
-
-
-
     <br>
     <br>
     <div class="container">
 
+        <!-- BASIC COMMANDS -->
+        <h2 class="collapsible-header2" style="cursor: pointer;">Basic Commands</h2>
         <div class="command-section">
-
-            <h2>Basic Commands</h2>
-
             <div class="command">
                 <h3>Change the Name for the Network Server</h3>
                 <code>Router> <b>enable</b><br>
@@ -170,58 +187,65 @@
             </div>
         </div>
 
-        <h2>Banner Configuration on Cisco Devices</h2>
+        <!-- BANNER COMMANDS -->
+        <h2 class="collapsible-header2" style="cursor: pointer;">Banner Configuration on Cisco Devices</h2>
 
-        <div class="command">
-            <h3>Set Up a Message of the Day (MOTD) Banner</h3>
-            <code>
+        <div class="command-section">
+            <div class="command">
+                <h3>Set Up a Message of the Day (MOTD) Banner</h3>
+                <code>
                     Router(config)# <b>banner motd # [Your Message Here] #</b>
                 </code>
-            <p>This command configures a Message of the Day (MOTD) banner that is displayed to users when they log in to the device.</p>
-        </div>
+                <p>This command configures a Message of the Day (MOTD) banner that is displayed to users when they log in to the device.</p>
+            </div>
 
-        <div class="command">
-            <h3>Set Up a Login Banner</h3>
-            <code>
+            <div class="command">
+                <h3>Set Up a Login Banner</h3>
+                <code>
                     Router(config)# <b>banner login # [Your Login Message Here] #</b>
                 </code>
-            <p>This command configures a login banner that appears before the login prompt on the device.</p>
-        </div>
+                <p>This command configures a login banner that appears before the login prompt on the device.</p>
+            </div>
 
-        <div class="command">
-            <h3>Set Up an Exec Banner</h3>
-            <code>
+            <div class="command">
+                <h3>Set Up an Exec Banner</h3>
+                <code>
                     Router(config)# <b>banner exec # [Your Exec Message Here] #</b>
                 </code>
-            <p>This command configures an EXEC banner that appears after login but before the EXEC prompt.</p>
+                <p>This command configures an EXEC banner that appears after login but before the EXEC prompt.</p>
+            </div>
+
         </div>
 
+        <!-- INTERFACE COMMANDS -->
+        <h2 class="collapsible-header2" style="cursor: pointer;">Interface Configuration Commands</h2>
 
-        <h2>Interface Configuration Commands</h2>
-        <div class="command">
-            <h3>Configure Interface Description</h3>
-            <code>R1(config-if)# <b> int [interface][port number]</b> <br>
+        <div class="command-section">
+            <div class="command">
+                <h3>Configure Interface Description</h3>
+                <code>R1(config-if)# <b> int [interface][port number]</b> <br>
                 R1(config-if)# <b>description [Description]</b></code>
-            <p>This command configures the description for a specific interface, which helps in identifying the purpose of the interface.</p>
-        </div>
+                <p>This command configures the description for a specific interface, which helps in identifying the purpose of the interface.</p>
+            </div>
 
-        <div class="command">
-            <h3>Configure Serial Interface and IP Address</h3>
-            <code>R1(config-if)# <b>int [interface][port number] </b><br>
+            <div class="command">
+                <h3>Configure Serial Interface and IP Address</h3>
+                <code>R1(config-if)# <b>int [interface][port number] </b><br>
                 R1(config-if)# <b>ip address [IP/v6 Address] [Subnet Mask]</b> <br>
                 R1(config-if)# <b>no shutdown</b><br>
                 R1(config-if)# <b>exit</b></code>
-            <p>This command configures a serial interface with an IP address and enables the interface.</p>
+                <p>This command configures a serial interface with an IP address and enables the interface.</p>
+            </div>
+
+            <div class="command">
+                <h3>Configure Hostname Mapping</h3>
+                <code>R1(config)# <b>ip host [user-defined name] [IP/v6 Address]</b></code>
+                <p>This command creates a static hostname-to-address mapping in the router's host table, allowing the router to resolve the specified hostname to an IP address.</p>
+            </div>
         </div>
 
-        <div class="command">
-            <h3>Configure Hostname Mapping</h3>
-            <code>R1(config)# <b>ip host [user-defined name] [IP/v6 Address]</b></code>
-            <p>This command creates a static hostname-to-address mapping in the router's host table, allowing the router to resolve the specified hostname to an IP address.</p>
-        </div>
-
-        <h2>Static Routing Protocol</h2>
-        <div class="command">
+        <h2 class="collapsible-header2" style="cursor: pointer;">Static Routing Protocol</h2>
+        <div class="command command-section">
             <code>
                     Router(config)# <b>ip route [destination_network] [subnet_mask] [interface_to_exit]</b><br>
                     
@@ -239,11 +263,12 @@
             </p>
         </div>
 
-        <h2>TCP/IP Protocol Configuration</h2>
+        <h2 class="collapsible-header2" style="cursor: pointer;">TCP/IP Protocol Configuration</h2>
 
-        <div class="command">
-            <h3>Configure SSH on Router</h3>
-            <code>
+        <div class="command-section">
+            <div class="command">
+                <h3>Configure SSH on Router</h3>
+                <code>
                 Router(config)# <b>hostname R1</b><br>
                 R1(config)# <b>ip domain name tamaraw</b><br>
                 R1(config)# <b>crypto key generate rsa</b><br><br>
@@ -254,28 +279,29 @@
                 R1(config-line)# <b>login local</b><br>
                 R1(config)# <b>username admin password sshtamaraw</b>
             </code>
-            <p>These commands configure SSH on the router, set up the domain name, generate RSA keys, and create a user account for SSH access.</p>
-        </div>
+                <p>These commands configure SSH on the router, set up the domain name, generate RSA keys, and create a user account for SSH access.</p>
+            </div>
 
-        <div class="command">
-            <h3>Configure Telnet Access</h3>
-            <code>
+            <div class="command">
+                <h3>Configure Telnet Access</h3>
+                <code>
                 Router(config)# <b>line vty 0 4</b><br>
                 R1(config-line)# <b>transport input telnet</b><br>
                 R1(config-line)# <b>login local</b>
             </code>
-            <p>These commands configure Telnet access for the router by defining virtual terminal lines (VTY) 0 through 4, which are used for remote management. The command <code>line vty 0 4</code> selects these lines for configuration. The <code>transport input telnet</code>                command enables Telnet as the remote access protocol on these lines. Finally, <code>login local</code> configures the router to use local user accounts for authentication, requiring users to log in with credentials stored on the router.</p>
+                <p>These commands configure Telnet access for the router by defining virtual terminal lines (VTY) 0 through 4, which are used for remote management. The command <code>line vty 0 4</code> selects these lines for configuration. The <code>transport input telnet</code>                    command enables Telnet as the remote access protocol on these lines. Finally, <code>login local</code> configures the router to use local user accounts for authentication, requiring users to log in with credentials stored on the router.</p>
+            </div>
         </div>
+
 
     </div>
 
     <br>
     <div class="container">
+        <h1 style="color: red;">Dynamic Routing Protocols</h1>
+        <h2 class="collapsible-header2" style="cursor: pointer;">Routing Information Protocol (RIP)</h2>
+
         <div class="command-section">
-            <h1 style="color: red;">Dynamic Routing Protocols</h1>
-
-            <h2>Routing Information Protocol (RIP)</h2>
-
             <div class="command">
                 <h3>Router R1</h3>
                 <code>R1(config)# <b>router rip</b><br>
@@ -297,9 +323,10 @@
                 R2(config)# <b>do show ip route</b></code>
                 <p>This command sequence configures RIP on Router R2, specifying the RIP version, networks to be included, and displays the routing table.</p>
             </div>
+        </div>
 
-
-            <h2>Enhanced Interior Gateway Routing Protocol (EIGRP)</h2>
+        <h2 class="collapsible-header2" style="cursor: pointer;">Enhanced Interior Gateway Routing Protocol (EIGRP)</h2>
+        <div class="command-section">
             <div class="command">
 
                 <code>R1(config)# <b>router eigrp [AS_number] (ex: 1, 10, 100, 111)</b><br>
@@ -346,8 +373,11 @@
                 R2(config-if)# <b>ipv6 eigrp 100</b>
             </code>
             </div>
+        </div>
 
-            <h2>Hot Standby Router Protocol Configuration</h2>
+        <h2 class="collapsible-header2" style="cursor: pointer;">Hot Standby Router Protocol Configuration</h2>
+
+        <div class="command-section">
             <div class="image-container">
                 <img src="./Picture3.jpg" alt="Layer 3 Switching Diagram">
             </div>
@@ -369,9 +399,11 @@
                     <li><code>standby [HSRP number] preempt</code>: Enables the router to take over as the active router if it has a higher priority or becomes available after a failure.</li>
                 </ul>
             </div>
+        </div>
 
+        <h2 class="collapsible-header2" style="cursor: pointer;">Dynamic Host Configuration Protocol (DHCP)</h2>
+        <div class="command-section">
 
-            <h2>Dynamic Host Configuration Protocol (DHCP)</h2>
             <div class="command">
                 <code>
                     R1(config)# <b>ip dhcp pool [Name]</b><br>
@@ -405,10 +437,11 @@
 
     <br>
     <div class="container">
-        <div class="command-section">
-            <h1 style="color: red;">Switch Configuration</h1>
+        <h1 style="color: red;">Switch Configuration</h1>
 
-            <h2>Switch Virtual Interface (SVI)</h2>
+        <h2 class="collapsible-header2" style="cursor: pointer;">Switch Virtual Interface (SVI)</h2>
+
+        <div class="command-section">
             <div class="command">
                 <h3>Configure SVI</h3>
                 <code>
@@ -438,9 +471,11 @@
                 </code>
                 <p>This command sequence demonstrates how to remotely access the switch via Telnet, authenticate with the provided password, and enter privileged EXEC mode.</p>
             </div>
+        </div>
 
-            <h2>Switch Port Security Configuration</h2>
+        <h2 class="collapsible-header2" style="cursor: pointer;">Switch Port Security Configuration</h2>
 
+        <div class="command-section">
             <div class="command">
                 <h3>Configure Port Security on Multiple Switch Ports</h3>
                 <code>
@@ -453,8 +488,11 @@
         </code>
                 <p>This sequence of commands sets up port security on multiple switch ports, defining the maximum number of devices allowed, making MAC addresses sticky, and specifying the violation mode.</p>
             </div>
+        </div>
 
-            <h2>Configure VTP Domain and Password</h2>
+        <h2 class="collapsible-header2" style="cursor: pointer;">Configure VTP Domain and Password</h2>
+
+        <div class="command-section">
             <div class="command">
 
                 <code>
@@ -465,8 +503,12 @@
                 <p>These commands configure the VLAN Trunking Protocol (VTP) domain and password on a switch. The <code>vtp domain tamaraw</code> command sets the VTP domain name to "tamaraw", while <code>vtp password tamaraw</code> sets the password for
                     VTP operations. The <code>show vtp status</code> command displays the current VTP configuration and status, allowing you to verify the settings.</p>
             </div>
+        </div>
 
-            <h2>Configure VLANs and Verify VLAN Configuration</h2>
+        <h2 class="collapsible-header2" style="cursor: pointer;">Configure VLANs and Verify VLAN Configuration</h2>
+
+
+        <div class="command-section">
             <div class="command">
                 <code>
                 SW1(config-vlan)# <b>vlan 500</b><br>
@@ -575,8 +617,12 @@
             </code>
                 <p>These commands reset the trunk configuration by removing any VLANs that were allowed on the trunk and clearing the native VLAN setting.</p>
             </div>
+        </div>
 
-            <h2>EtherChannel Configuration</h2>
+        <h2 class="collapsible-header2" style="cursor: pointer;">EtherChannel Configuration</h2>
+        <div class="command-section">
+
+
             <div class="image-container">
                 <img src="./Picture2.jpg" alt="Layer 3 Switching Diagram">
             </div>
@@ -602,11 +648,11 @@
 
     <br>
     <div class="container">
+        <h1 style="color: red;">Router-Switch Configuration</h1>
+
+        <h2 class="collapsible-header2" style="cursor: pointer;">Router-on-a-Stick Inter-VLAN</h2>
+
         <div class="command-section">
-            <h1 style="color: red;">Router-Switch Configuration</h1>
-
-            <h2>Router-on-a-Stick Inter-VLAN</h2>
-
             <div class="command">
                 <h3>Router R1 </h3>
                 <code>
@@ -667,9 +713,11 @@
                 S1(config-if-range)# <b>shutdown</b>
             </code>
             </div>
+        </div>
 
-            <h2>Layer 3 Switching and Inter-VLAN Routing</h2>
+        <h2 class="collapsible-header2" style="cursor: pointer;">Layer 3 Switching and Inter-VLAN Routing</h2>
 
+        <div class="command-section">
             <div class="image-container">
                 <img src="./Picture1.jpg" alt="Layer 3 Switching Diagram">
             </div>
@@ -700,9 +748,10 @@
                 MLS(config-if)# <b>ip address 192.168.99.254 255.255.255.0</b>
             </code>
             </div>
+        </div>
 
-            <h2>Spanning Tree Protocol (STP) Configuration</h2>
-
+        <h2 class="collapsible-header2" style="cursor: pointer;">Spanning Tree Protocol (STP) Configuration</h2>
+        <div class="command-section">
             <div class="command">
                 <h3>Enable STP and View STP Information</h3>
                 <code>
@@ -868,9 +917,8 @@
 
     <br>
     <div class="container">
+        <h1 class="collapsible-header2" style="cursor: pointer;color: red;">Wireless Network Configuration</h1>
         <div class="command-section">
-            <h1 style="color: red;">Wireless Network Configuration</h1>
-
             <div class="command">
                 <h3>A. Configure the Internet Port</h3>
                 <p>Navigate to <code>Setup &gt; Basic Setup &gt; Internet Setup</code>:</p>
@@ -938,9 +986,10 @@
 
     <br>
     <div class="container">
+        <h1 style="color: red;">Network Risk Mitigation</h1>
+        <h2 class="collapsible-header2" style="cursor: pointer;">Mitigate DHCP Attacks</h2>
         <div class="command-section">
-            <h1 style="color: red;">Network Risk Mitigation</h1>
-            <h2>Mitigate DHCP Attacks</h2>
+
             <div class="command">
                 <code>
         S1(config)# <b>ip dhcp snooping</b><br>
@@ -956,7 +1005,12 @@
                 <p>Enables DHCP snooping to prevent unauthorized DHCP servers and limits the rate of DHCP messages. Configures trusted ports and specifies VLANs for DHCP snooping.</p>
             </div>
 
-            <h2>Mitigate ARP Attacks</h2>
+
+
+        </div>
+
+        <h2 class="collapsible-header2" style="cursor: pointer;">Mitigate ARP Attacks</h2>
+        <div class="command-section">
             <div class="command">
                 <code>
         S1(config)# <b>ip dhcp snooping</b><br>
@@ -968,17 +1022,16 @@
     </code>
                 <p>Enables DHCP snooping and ARP inspection to prevent ARP spoofing attacks. Configures trusted ports for both DHCP snooping and ARP inspection.</p>
             </div>
-
         </div>
+
     </div>
 
     <br>
     <div class="container">
+        <h1 style="color: red;">Layer 3 Configuration</h1>
+
+        <h2 class="collapsible-header2" style="cursor: pointer;">EtherChannel</h2>
         <div class="command-section">
-            <h1 style="color: red;">Layer 3 Configuration</h1>
-
-            <h2>EtherChannel</h2>
-
             <div class="image-container">
                 <img src="./layer-3-etherchannel-1024x222.webp" alt="Layer 3 Switching Diagram">
             </div>
@@ -1008,8 +1061,12 @@
     </code>
                 <p>Configures the Layer 3 EtherChannel on Switch2 similarly to Switch1, but with a different channel group number and IP address.</p>
             </div>
+        </div>
 
-            <h2>Layer 3 EtherChannel Verification</h2>
+        <h2 class="collapsible-header2" style="cursor: pointer;">Layer 3 EtherChannel Verification</h2>
+
+
+        <div class="command-section">
             <div class="command">
                 <p>We can verify if our Layer 3 EtherChannel configuration is working as expected by performing the following:</p>
                 <p><b>Pings from Switch1 to Switch2</b></p>
@@ -1070,17 +1127,17 @@
         Time since last port bundled: 0d:00h:35m:01s Fa0/2
     </code>
             </div>
-
-
         </div>
+
     </div>
 
     <br>
     <div class="container">
-        <div class="command-section">
-            <h1 style="color: red;">Networking 3</h1>
+        <h1 style="color: red;">Networking 3</h1>
 
-            <h2>Single-Area OSPFv2 Configuration</h2>
+        <h2 class="collapsible-header2" style="cursor: pointer;">Single-Area OSPFv2 Configuration</h2>
+        <div class="command-section">
+
             <div class="image-container"> <img src="./Picture7.jpg" alt="Layer 3 Switching Diagram"> </div>
 
             <h3>Router P2P-1</h3>
@@ -1207,6 +1264,113 @@
                 });
             });
         });
+
+        // JavaScript for collapsible sections
+        document.addEventListener('DOMContentLoaded', () => {
+            const headers = document.querySelectorAll('.collapsible-header2');
+
+            headers.forEach(header => {
+                header.addEventListener('click', () => {
+                    const content = header.nextElementSibling;
+                    content.style.display = (content.style.display === 'block') ? 'none' : 'block';
+                });
+            });
+        });
+
+        function calculateSubnet() {
+            const ipInput = document.getElementById("ip").value;
+            const [ip, cidr] = ipInput.split('/');
+
+            if (!validateIP(ip) || !validateCIDR(cidr)) {
+                alert("Please enter a valid IP address in the format: 192.168.0.1/24");
+                return;
+            }
+
+            const subnetInfo = getSubnetInfo(ip, parseInt(cidr));
+            document.getElementById("address").innerText = `Address: ${ip}`;
+            document.getElementById("netmask").innerText = `Netmask: ${subnetInfo.netmask} = ${cidr}`;
+            document.getElementById("wildcard").innerText = `Wildcard: ${subnetInfo.wildcard}`;
+            document.getElementById("network").innerText = `Network: ${subnetInfo.network}/${cidr} (Class ${getClass(ip)})`;
+            document.getElementById("broadcast").innerText = `Broadcast: ${subnetInfo.broadcast}`;
+            document.getElementById("hostmin").innerText = `HostMin: ${subnetInfo.hostMin}`;
+            document.getElementById("hostmax").innerText = `HostMax: ${subnetInfo.hostMax}`;
+            document.getElementById("hosts").innerText = `Hosts/Net: ${subnetInfo.hosts} (${isPrivate(ip) ? "Private Internet" : "Public Internet"})`;
+            document.getElementById("subnet-results").style.display = 'block';
+        }
+
+        function validateIP(ip) {
+            const regex = /^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/;
+            return regex.test(ip);
+        }
+
+        function validateCIDR(cidr) {
+            return cidr >= 0 && cidr <= 32;
+        }
+
+        function getSubnetInfo(ip, cidr) {
+            const netmask = getNetmask(cidr);
+            const wildcard = getWildcard(netmask);
+            const network = getNetworkAddress(ip, netmask);
+            const broadcast = getBroadcastAddress(network, wildcard);
+            const hostMin = getHostMinAddress(network);
+            const hostMax = getHostMaxAddress(broadcast);
+            const hosts = Math.pow(2, 32 - cidr) - 2;
+
+            return {
+                netmask: netmask,
+                wildcard: wildcard,
+                network: network,
+                broadcast: broadcast,
+                hostMin: hostMin,
+                hostMax: hostMax,
+                hosts: hosts
+            };
+        }
+
+        function getNetmask(cidr) {
+            return Array(4).fill(0).map((_, i) => ((-1 << (32 - cidr)) >>> (i * 8)) & 255).join('.');
+        }
+
+        function getWildcard(netmask) {
+            return netmask.split('.').map(octet => 255 - parseInt(octet)).join('.');
+        }
+
+        function getNetworkAddress(ip, netmask) {
+            const ipParts = ip.split('.').map(Number);
+            const maskParts = netmask.split('.').map(Number);
+            return ipParts.map((octet, i) => octet & maskParts[i]).join('.');
+        }
+
+        function getBroadcastAddress(network, wildcard) {
+            const networkParts = network.split('.').map(Number);
+            const wildcardParts = wildcard.split('.').map(Number);
+            return networkParts.map((octet, i) => octet | wildcardParts[i]).join('.');
+        }
+
+        function getHostMinAddress(network) {
+            const parts = network.split('.').map(Number);
+            parts[3] += 1; // Increment last octet by 1
+            return parts.join('.');
+        }
+
+        function getHostMaxAddress(broadcast) {
+            const parts = broadcast.split('.').map(Number);
+            parts[3] -= 1; // Decrement last octet by 1
+            return parts.join('.');
+        }
+
+        function getClass(ip) {
+            const firstOctet = parseInt(ip.split('.')[0]);
+            if (firstOctet >= 1 && firstOctet <= 126) return 'A';
+            if (firstOctet >= 128 && firstOctet <= 191) return 'B';
+            if (firstOctet >= 192 && firstOctet <= 223) return 'C';
+            return 'Unknown';
+        }
+
+        function isPrivate(ip) {
+            const [a, b] = ip.split('.').map(Number);
+            return (a === 10) || (a === 172 && (b >= 16 && b <= 31)) || (a === 192 && b === 168);
+        }
     </script>
 </body>
 

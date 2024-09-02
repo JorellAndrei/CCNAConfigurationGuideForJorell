@@ -28,6 +28,7 @@ h1 {
 
 .command-section {
     margin-top: 20px;
+    display: none;
 }
 
 .command {
