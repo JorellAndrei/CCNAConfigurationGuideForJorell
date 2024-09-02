@@ -13,13 +13,108 @@
     <div class="container" style="background: Black;">
         <h1 class="headline">Cisco Configuration Guide</h1>
     </div>
+    <br><br>
+    <!-- Collapsible IPv4 and IPv6 Tables -->
+    <div class="container">
+        <div class="collapsible-section">
+            <h3 class="collapsible-header">IPv4 Address Guide</h3>
+            <div class="collapsible-content">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Type</th>
+                            <th>Address Range</th>
+                            <th>Number of Networks</th>
+                            <th>Number of Hosts</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Private</td>
+                            <td>10.0.0.0 - 10.255.255.255</td>
+                            <td>1</td>
+                            <td>16,777,214</td>
+                        </tr>
+                        <tr>
+                            <td>Private</td>
+                            <td>172.16.0.0 - 172.31.255.255</td>
+                            <td>16</td>
+                            <td>1,048,574</td>
+                        </tr>
+                        <tr>
+                            <td>Private</td>
+                            <td>192.168.0.0 - 192.168.255.255</td>
+                            <td>256</td>
+                            <td>65,534</td>
+                        </tr>
+                        <tr>
+                            <td>Public</td>
+                            <td>1.0.0.0 - 223.255.255.255</td>
+                            <td>Varies</td>
+                            <td>Varies</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="collapsible-section">
+            <h3 class="collapsible-header">IPv6 Address Guide</h3>
+            <div class="collapsible-content">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Type</th>
+                            <th>Address Range</th>
+                            <th>Prefix Length</th>
+                            <th>Number of Addresses</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Global Unicast</td>
+                            <td>2000::/3</td>
+                            <td>/64</td>
+                            <td>18,446,744,073,709,551,616</td>
+                        </tr>
+                        <tr>
+                            <td>Link-Local</td>
+                            <td>FE80::/10</td>
+                            <td>/64</td>
+                            <td>18,446,744,073,709,551,616</td>
+                        </tr>
+                        <tr>
+                            <td>Unique Local</td>
+                            <td>FC00::/7</td>
+                            <td>/64</td>
+                            <td>18,446,744,073,709,551,616</td>
+                        </tr>
+                        <tr>
+                            <td>Multicast</td>
+                            <td>FF00::/8</td>
+                            <td>N/A</td>
+                            <td>Varies</td>
+                        </tr>
+                        <tr style="background-color: darkolivegreen; color:aliceblue; font-weight: 700;">
+                            <td>Example</td>
+                            <td>2001:db8:acad:[1]::/64</td>
+
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+
+
     <br>
     <br>
     <div class="container">
 
         <div class="command-section">
 
-            <h2>Basic Commandss</h2>
+            <h2>Basic Commands</h2>
 
             <div class="command">
                 <h3>Change the Name for the Network Server</h3>
@@ -1097,6 +1192,18 @@
                     } else {
                         content.style.display = 'none';
                     }
+                });
+            });
+        });
+
+        // JavaScript for collapsible sections
+        document.addEventListener('DOMContentLoaded', () => {
+            const headers = document.querySelectorAll('.collapsible-header');
+
+            headers.forEach(header => {
+                header.addEventListener('click', () => {
+                    const content = header.nextElementSibling;
+                    content.style.display = (content.style.display === 'block') ? 'none' : 'block';
                 });
             });
         });
