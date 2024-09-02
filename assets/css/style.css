@@ -37,6 +37,12 @@ h1 {
     padding-left: 15px;
 }
 
+.command2 {
+    margin-bottom: 20px;
+    border-left: 4px solid #00ff55;
+    padding-left: 15px;
+}
+
 h2 {
     font-size: 30px;
     color: #007BFF;
@@ -134,4 +140,24 @@ th {
     .collapsible-content {
         padding: 10px;
     }
+}
+
+.image-container {
+    width: 100%;
+    /* Makes the container take full width of its parent */
+    text-align: center;
+    /* Centers the image horizontally */
+    margin: 20px 0;
+    /* Adds vertical margin */
+}
+
+.image-container img {
+    max-width: 100%;
+    /* Ensures the image does not exceed the container's width */
+    height: auto;
+    /* Maintains the aspect ratio */
+    display: block;
+    /* Removes the default inline block spacing */
+    margin: 0 auto;
+    /* Centers the image within the container */
 }

@@ -1135,9 +1135,259 @@
     <div class="container">
         <h1 style="color: red;">Networking 3</h1>
 
+        <h2 class="collapsible-header2" style="cursor: pointer;">Point-to-Point Single-Area OSPFv2 Configuration</h2>
+        <div class="command-section">
+            <div class="image-container"> <img src="./2.2.13.png" alt="Layer 3 Switching Diagram"> </div>
+
+            <h3>Configure router IDs</h3>
+            <div class="command">
+                <p> Start the OSPF routing process on all three routers. Use process ID 10 as example.</p>
+                <code>
+                    R1(config)# <b>router ospf [process_id]</b><br>
+                </code>
+
+            </div>
+
+            <div class="command">
+                <p>Use the router-id command to set the OSPF IDs</p>
+                <code>
+                    R1(config-router)# <b>router-id [router_id]</b><br>
+                </code>
+
+            </div>
+
+            <div class="command2">
+                <code>
+                    R1(config)# <b>router ospf 10</b><br>
+                    R1(config-router)# <b>router-id 1.1.1.1</b><br>
+                </code>
+            </div>
+
+            <h3>Configure Networks for OSPF Routing</h3>
+            <div class="command">
+                <p> Configure the routing process on R1 with the network statements and wildcard masks that are required to activate OSPF routing for all the attached networks. The network statement values should be the network or subnet addresses of the
+                    configured networks.</p>
+                <code>
+                    R1(config-router)# <b>network [network_address] [wildcard_mask] area [area_id]</b><br>
+                </code>
+            </div>
+
+            <div class="command2">
+                <code>
+                    R1(config-router)# <b>network 192.168.10.0 0.0.0.255 area 0</b><br>
+                    R1(config-router)# <b>network 10.1.1.0 0.0.0.3 area 0</b><br>
+                    R1(config-router)# <b>network 10.1.1.4 0.0.0.3 area 0</b><br>
+                </code>
+            </div>
+
+            <div class="command2">
+                <code>
+                    R2(config-router)# <b>network 192.168.20.1 0.0.0.0 area 0</b><br>
+                    R2(config-router)# <b>network 10.1.1.2 0.0.0.0 area 0</b><br>
+                    R2(config-router)# <b>network 10.1.1.9 0.0.0.0 area 0</b><br>
+                </code>
+            </div>
+
+            <div class="command">
+                <p>On router, configure the required interfaces with OSPF.</p>
+                <code>
+                    Router(config-if)# <b>ip ospf process-id area area-id</b><br>
+                </code>
+
+            </div>
+
+            <div class="command2">
+                <code>
+                    R3(config)# <b>int gi0/0/0</b><br>
+                    R3(config-if)# <b>ip ospf 10 area 0</b><br>
+                    R3(config-if)# <b>int se0/1/0</b><br>
+                    R3(config-if)# <b>ip ospf 10 area 0</b><br>
+                    R3(config-if)# <b>int gi0/1/1</b><br>
+                    R3(config-if)# <b>ip ospf 10 area 0</b><br>
+                </code>
+            </div>
+
+            <h3>Configure Passive Interfaces</h3>
+            <div class="command">
+                <p> OSPF will send its protocol traffic out of all interfaces that are participating in the OSPF process. On links that are not configured to other networks, such as LANs, this unnecessary traffic consumes resources. The passive-interface
+                    command will prevent the OSPF process from sending unnecessary routing protocol traffic out LAN interfaces.</p>
+                <code>
+                    R1(config)# <b>router ospf [process_id]</b><br>
+                    R1(config-router)# <b>passive-interface [interface]</b><br>
+                </code>
+            </div>
+
+            <div class="command2">
+                <code>
+                    R1(config)# <b>router ospf 10</b><br>
+                    R1(config-router)# <b>passive-interface gi0/0/0</b><br>
+<br>
+                    R2(config)# <b>router ospf 10</b><br>
+                    R2(config-router)# <b>passive-interface gi0/0/0</b><br>
+<br>
+                    R3(config)# <b>router ospf 10</b><br>
+                    R3(config-router)# <b>passive-interface gi0/0/0</b><br>
+                </code>
+
+
+
+            </div>
+
+            <h3>Verify OSPF Configuration</h3>
+            <div class="command">
+                <p> Use <b>"show"</b> commands to verify the network and passive interface configuration of the OSPF process on each router.</p>
+                <code>
+                    R1# <b>show ip route</b><br><br>
+                    R1# <b>show ip protocols</b><br>
+                </code>
+            </div>
+
+        </div>
+
+        <h2 class="collapsible-header2" style="cursor: pointer;">Determine the DR and BDR</h2>
+        <div class="command-section">
+            <div class="image-container"> <img src="./2.3.11-Packet-Tracer-Determine-the-DR-and-BDR.jpg" alt="Layer 3 Switching Diagram"> </div>
+
+            <h3>Examine DR and BDR Changing Roles</h3>
+
+            <div class="command">
+                <p> Use the appropriate command on each router to examine the current DR and BDR. If a router shows FULL/DROTHER it means that the router is not a DR or a BDR.</p>
+                <code>
+                    RA# <b> show ip ospf neighbor</b><br>
+                </code>
+
+            </div>
+
+            <div class="command">
+                <p> You can monitor the DR and BDR election process with a debug command. On RA and RB, enter the following command.</p>
+                <code>
+                    RA# <b> debug ip ospf adj</b><br>
+                    RB <b>debug ip ospf adj </b><br>
+                </code>
+
+            </div>
+
+            <div class="command">
+                <p> Use the shutdown command to disable the link between RC and the switch to cause roles to change.</p>
+                <code>
+                    RC(config)# <b>interface g0/0</b> <br>
+                    RC(config-if)# <b>shutdown</b> <br>
+                </code>
+            </div>
+
+            <div class="command">
+                <p> Restore the interface on RC.</p>
+                <code>
+                    RC(config)# <b>interface g0/0</b> <br>
+                    RC(config-if)# <b>no shutdown</b> <br>
+                </code>
+            </div>
+
+            <h3>Modify OSPF Priority and Force Elections</h3>
+            <div class="command">
+                <p> Configure OSPF priorities on each router.</p>
+                <code>
+                    R1(config)# <b>interface [interface]</b><br>
+                    R1(config-if)# <b>ip ospf priority [priority_number]</b><br>
+                </code>
+            </div>
+
+            <div class="command2">
+                <code>
+                    RA(config)# <b>interface gi0/0</b><br>
+                    RA(config-if)# <b>ip ospf priority 200</b><br>
+                    <br>
+                    RB(config)# <b>interface gi0/0</b><br>
+                    RB(config-if)# <b>ip ospf priority 100</b><br>
+                    <br>
+                    RC(config)# <b>interface gi0/0</b><br>
+                    RC(config-if)# <b>ip ospf priority 1</b><br>
+
+                </code>
+            </div>
+
+            <div class="command">
+                <p>Force an election by resetting the OSPF process on the routers.</p>
+                <code>
+                    Router(config)# <b>clear ip ospf process</b><br>
+                </code>
+            </div>
+
+        </div>
+
+        <h2 class="collapsible-header2" style="cursor: pointer;">Modify Single-Area OSPFv2</h2>
+        <div class="command-section">
+            <div class="image-container"> <img src="./2.3.11-Packet-Tracer-Determine-the-DR-and-BDR.jpg" alt="Layer 3 Switching Diagram"> </div>
+
+            <h3>Examine DR and BDR Changing Roles</h3>
+
+            <div class="command">
+                <p> Use the appropriate command on each router to examine the current DR and BDR. If a router shows FULL/DROTHER it means that the router is not a DR or a BDR.</p>
+                <code>
+                    RA# <b> show ip ospf neighbor</b><br>
+                </code>
+
+            </div>
+
+            <div class="command">
+                <p> You can monitor the DR and BDR election process with a debug command. On RA and RB, enter the following command.</p>
+                <code>
+                    RA# <b> debug ip ospf adj</b><br>
+                    RB <b>debug ip ospf adj </b><br>
+                </code>
+
+            </div>
+
+            <div class="command">
+                <p> Use the shutdown command to disable the link between RC and the switch to cause roles to change.</p>
+                <code>
+                    RC(config)# <b>interface g0/0</b> <br>
+                    RC(config-if)# <b>shutdown</b> <br>
+                </code>
+            </div>
+
+            <div class="command">
+                <p> Restore the interface on RC.</p>
+                <code>
+                    RC(config)# <b>interface g0/0</b> <br>
+                    RC(config-if)# <b>no shutdown</b> <br>
+                </code>
+            </div>
+
+            <h3>Modify OSPF Priority and Force Elections</h3>
+            <div class="command">
+                <p> Configure OSPF priorities on each router.</p>
+                <code>
+                    R1(config)# <b>interface [interface]</b><br>
+                    R1(config-if)# <b>ip ospf priority [priority_number]</b><br>
+                </code>
+            </div>
+
+            <div class="command2">
+                <code>
+                    RA(config)# <b>interface gi0/0</b><br>
+                    RA(config-if)# <b>ip ospf priority 200</b><br>
+                    <br>
+                    RB(config)# <b>interface gi0/0</b><br>
+                    RB(config-if)# <b>ip ospf priority 100</b><br>
+                    <br>
+                    RC(config)# <b>interface gi0/0</b><br>
+                    RC(config-if)# <b>ip ospf priority 1</b><br>
+
+                </code>
+            </div>
+
+            <div class="command">
+                <p>Force an election by resetting the OSPF process on the routers.</p>
+                <code>
+                    Router(config)# <b>clear ip ospf process</b><br>
+                </code>
+            </div>
+
+        </div>
+
         <h2 class="collapsible-header2" style="cursor: pointer;">Single-Area OSPFv2 Configuration</h2>
         <div class="command-section">
-
             <div class="image-container"> <img src="./Picture7.jpg" alt="Layer 3 Switching Diagram"> </div>
 
             <h3>Router P2P-1</h3>
@@ -1149,89 +1399,6 @@
                     P2P-1(config-router)# <b>network 10.0.0.12 0.0.0.3 area 0</b>
                 </code>
                 <p>Configures OSPF process ID 10 on P2P-1 and specifies the networks to be included in OSPF area 0 using inverse masks.</p>
-            </div>
-
-            <h3>Router P2P-2</h3>
-            <div class="command">
-                <code>
-                    P2P-2(config)# <b>router ospf 10</b><br>
-                    P2P-2(config-router)# <b>network 10.0.0.0 0.0.0.3 area 0</b><br>
-                    P2P-2(config-router)# <b>network 10.0.0.4 0.0.0.3 area 0</b><br>
-                    P2P-2(config-router)# <b>network 192.168.1.0 0.0.0.255 area 0</b><br>
-                    P2P-2(config-router)# <b>network 192.168.2.0 0.0.0.255 area 0</b>
-                </code>
-                <p>Configures OSPF process ID 10 on P2P-2 and specifies the networks to be included in OSPF area 0 using inverse masks.</p>
-            </div>
-
-            <h3>Router P2P-3</h3>
-            <div class="command">
-                <code>
-                    P2P-3(config)# <b>router ospf 10</b><br>
-                    P2P-3(config-router)# <b>network 10.0.0.4 0.0.0.3 area 0</b><br>
-                    P2P-3(config-router)# <b>network 10.0.0.8 0.0.0.3 area 0</b><br>
-                    P2P-3(config-router)# <b>network 192.168.3.0 0.0.0.15 area 0</b>
-                </code>
-                <p>Configures OSPF process ID 10 on P2P-3 and specifies the networks to be included in OSPF area 0 using inverse masks.</p>
-            </div>
-
-            <hr>
-            <h3>Router BC-1</h3>
-            <div class="command">
-                <code>
-        BC-1(config)# <b>interface GigabitEthernet0/0/0</b><br>
-        BC-1(config-if)# <b>ip ospf 10 area 0</b><br>
-        BC-1(config)# <b>interface Serial0/1/0</b><br>
-        BC-1(config-if)# <b>ip ospf 10 area 0</b>
-    </code>
-                <p>Activates OSPF process ID 10 on the interfaces GigabitEthernet0/0/0 and Serial0/1/0 of BC-1, assigning them to area 0.</p>
-            </div>
-
-            <div class="command">
-                <code>
-                    BC-1(config)# <b>router ospf 10</b><br>
-                    BC-1(config-router)# <b>router-id 6.6.6.6</b>
-                </code>
-                <p>Sets the OSPF router ID to 6.6.6.6 for Router BC-1 in OSPF process 10.</p>
-            </div>
-
-
-            <h3>Router BC-2 </h3>
-            <div class="command">
-                <code>
-        BC-2(config)# <b>interface GigabitEthernet0/0/0</b><br>
-        BC-2(config-if)# <b>ip ospf 10 area 0</b><br>
-        BC-2(config)# <b>interface GigabitEthernet0/0/1</b><br>
-        BC-2(config-if)# <b>ip ospf 10 area 0</b>
-    </code>
-                <p>Activates OSPF process ID 10 on the interfaces GigabitEthernet0/0/0 and GigabitEthernet0/0/1 of BC-2, assigning them to area 0.</p>
-            </div>
-
-            <div class="command">
-                <code>
-                    BC-2(config)# <b>router ospf 10</b><br>
-                    BC-2(config-router)# <b>router-id 5.5.5.5</b>
-                </code>
-                <p>Sets the OSPF router ID to 5.5.5.5 for Router BC-2 in OSPF process 10.</p>
-            </div>
-
-
-            <h3>Router BC-3</h3>
-            <div class="command">
-                <code>
-        BC-3(config)# <b>interface GigabitEthernet0/0/0</b><br>
-        BC-3(config-if)# <b>ip ospf 10 area 0</b><br>
-        BC-3(config)# <b>interface GigabitEthernet0/0/1</b><br>
-        BC-3(config-if)# <b>ip ospf 10 area 0</b>
-    </code>
-                <p>Activates OSPF process ID 10 on the interfaces GigabitEthernet0/0/0 and GigabitEthernet0/0/1 of BC-3, assigning them to area 0.</p>
-            </div>
-
-            <div class="command">
-                <code>
-                    BC-3(config)# <b>router ospf 10</b><br>
-                    BC-3(config-router)# <b>router-id 4.4.4.4</b>
-                </code>
-                <p>Sets the OSPF router ID to 4.4.4.4 for Router BC-3 in OSPF process 10.</p>
             </div>
 
         </div>
