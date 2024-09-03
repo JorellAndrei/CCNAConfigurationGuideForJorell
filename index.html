@@ -1675,17 +1675,49 @@
 
             <div class="command">
                 <p> Ping devices on the local network to verify connectivity.</p>
+                <br>
+                <p>Use show commands to investigate the ACL configuration.</p>
 
                 <code>
-                    show ip interface brief <br>
-                    show ip route <br>
-                    show ip route ospf <br>
-                    show ip ospf neighbor <br>
-                    show ip protocols <br>
-                    show ip ospf <br>
-                    show ip ospf interface <br>
+                    R1# <b> show access-lists </b> <br>
                 </code>
+
+                <p>If you know the ACL number or name, you can filter the show output further. </p>
             </div>
+
+            <div class="command2">
+                <p>
+                    For an ACL to impact router operation, it must be applied to an interface in a specific direction. In this scenario, the ACL is used to filter traffic exiting an interface. Therefore, all traffic leaving the specified interface of R1 will be inspected
+                    against ACL 11.
+                </p>
+
+                <code>
+                    R1# <b> show run | include interface | access </b> <br>
+                </code>
+
+                <p>The second pipe symbol ‘|” creates an OR condition that matches ‘interface’ OR ‘access’. It is important that no spaces are included in the OR condition. Use one or both of these commands to find information about the ACL</p>
+            </div>
+
+            <h3>Remove access list </h3>
+
+            <div class="command">
+                <p>
+                    You can remove ACLs from the configuration by issuing the <b>no access list [number of the ACL]</b> command. The <em>no access-list</em> command when used without arguments deletes all ACLs configured on the router. The<b> no access-list
+                        [number of the ACL]</b> command removes only a specific ACL. Removing an ACL from a router does not remove the ACL from the interface. The command that applies the ACL to the interface must be removed separately.
+                </p>
+
+                <code>
+                    <b style="color:red;">Interface</b> <br>
+                    R1(config)# <b>interface [interface]</b> <br>
+                    R1(config-if)# <b>no ip access-group [ACL_number] out</b><br>
+                    <br><br>
+
+                    <b style="color:red;">Global Config Mode</b> <br>
+                    R1(config)# <b>no access-list [ACL_number]</b> <br>
+                </code>
+
+            </div>
+
         </div>
 
 
