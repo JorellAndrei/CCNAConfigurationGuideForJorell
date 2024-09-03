@@ -1317,91 +1317,382 @@
 
         <h2 class="collapsible-header2" style="cursor: pointer;">Modify Single-Area OSPFv2</h2>
         <div class="command-section">
-            <div class="image-container"> <img src="./2.3.11-Packet-Tracer-Determine-the-DR-and-BDR.jpg" alt="Layer 3 Switching Diagram"> </div>
+            <div class="image-container"> <img src="./2.4.11-Packet-Tracer-Modify-Single-Area-OSPFv2.jpg" alt="Layer 3 Switching Diagram"> </div>
 
-            <h3>Examine DR and BDR Changing Roles</h3>
-
-            <div class="command">
-                <p> Use the appropriate command on each router to examine the current DR and BDR. If a router shows FULL/DROTHER it means that the router is not a DR or a BDR.</p>
-                <code>
-                    RA# <b> show ip ospf neighbor</b><br>
-                </code>
-
-            </div>
+            <h3>Modify OSPF Default Settings</h3>
 
             <div class="command">
-                <p> You can monitor the DR and BDR election process with a debug command. On RA and RB, enter the following command.</p>
+                <p> Before modifying the OSPF settings, verify that all PCs can ping the web server and each other.</p>
+                <p>Adjust the hello and dead timers</p>
                 <code>
-                    RA# <b> debug ip ospf adj</b><br>
-                    RB <b>debug ip ospf adj </b><br>
-                </code>
+                    R1(config) <b> interface [interface]</b><br>
+                    R1(config-if) <b> ip ospf hello-interval [number]</b><br>
+                    R1(config-if) <b> ip ospf dead-interval [number]</b><br>
 
-            </div>
-
-            <div class="command">
-                <p> Use the shutdown command to disable the link between RC and the switch to cause roles to change.</p>
-                <code>
-                    RC(config)# <b>interface g0/0</b> <br>
-                    RC(config-if)# <b>shutdown</b> <br>
-                </code>
-            </div>
-
-            <div class="command">
-                <p> Restore the interface on RC.</p>
-                <code>
-                    RC(config)# <b>interface g0/0</b> <br>
-                    RC(config-if)# <b>no shutdown</b> <br>
-                </code>
-            </div>
-
-            <h3>Modify OSPF Priority and Force Elections</h3>
-            <div class="command">
-                <p> Configure OSPF priorities on each router.</p>
-                <code>
-                    R1(config)# <b>interface [interface]</b><br>
-                    R1(config-if)# <b>ip ospf priority [priority_number]</b><br>
                 </code>
             </div>
 
             <div class="command2">
                 <code>
-                    RA(config)# <b>interface gi0/0</b><br>
-                    RA(config-if)# <b>ip ospf priority 200</b><br>
-                    <br>
-                    RB(config)# <b>interface gi0/0</b><br>
-                    RB(config-if)# <b>ip ospf priority 100</b><br>
-                    <br>
-                    RC(config)# <b>interface gi0/0</b><br>
-                    RC(config-if)# <b>ip ospf priority 1</b><br>
+                    R1(config) <b> interface se0/0/0</b><br>
+                    R1(config-if) <b> ip ospf hello-interval 15</b><br>
+                    R1(config-if) <b> ip ospf dead-interval 60</b><br>
+                </code>
 
+            </div>
+
+            <div class="command">
+                <p> After a short period of time, the OSPF connection with Router 2 will fail, as shown in the router output.</p>
+                <code>
+                    R00:02:40: %OSPF-5-ADJCHG: Process 1, Nbr 209.165.200.225 on Serial0/0/0 from FULL to DOWN, Neighbor Down: Dead timer expired
+                    <br><br>
+                    00:02:40: %OSPF-5-ADJCHG: Process 1, Nbr 209.165.200.225 on Serial0/0/0 from FULL to DOWN, Neighbor Down: Interface down or detached<br>
+                </code>
+            </div>
+
+            <div class="command2">
+                <p> <b>Both sides of the connection need to have the same timer values in order for the adjacency to be maintained.</b> Identify the interface on R2 that is connected to R1. Adjust the timers on the R2 interface to match the settings on R1.</p>
+                <code>
+                    R2(config) <b> interface se0/0/0</b><br>
+                    R2(config-if) <b> ip ospf hello-interval 15</b><br>
+                    R2(config-if) <b> ip ospf dead-interval 60</b><br>
                 </code>
             </div>
 
             <div class="command">
-                <p>Force an election by resetting the OSPF process on the routers.</p>
+                <p> After a brief period of time you should see a status message that indicates that the OSPF adjacency has been reestablished.</p>
                 <code>
-                    Router(config)# <b>clear ip ospf process</b><br>
+                    00:21:52: %OSPF-5-ADJCHG: Process 1, Nbr 192.168.10.5 on Serial0/0/0 from LOADING to FULL, Loading Done
+<br>
                 </code>
             </div>
 
+            <h3>Adjust the bandwidth setting on Router 1</h3>
+            <div class="command2">
+                <p> Trace the path between PC1 and the web server located at 64.100.1.2. Notice that the path from PC1 to 64.100.1.2 is routed through R2. <b>OSPF prefers the lower cost path. </b>
+
+                </p>
+                <code>
+                    C:\> tracert 64.100.1.2
+                    <br><br>
+                    Tracing route to 64.100.1.2 over a maximum of 30 hops:
+                    <br><br>
+
+                    1 1 ms 0 ms 8 ms 172.16.1.1
+                    2 0 ms 1 ms 0 ms 172.16.3.2
+                    3 1 ms 9 ms 2 ms 209.165.200.226
+                    4 * 1 ms 0 ms 64.100.1.2
+                    <br><br>
+
+                    Trace complete.
+                    <br>
+                </code>
+            </div>
+
+            <div class="command">
+                <p>Use the bandwidth command to change the metric that OSPF process on Router</p>
+                <code>
+                    R1(config-if)# <b>bandwidth [size]</b><br>
+                </code>
+            </div>
+
+            <div class="comman2">
+                <p>On the R1 Serial 0/0/0 interface, set the bandwidth to 64 Kb/s. This does not change the actual port speed, only the metric that the OSPF process on R1 will use to calculate best routes.</p>
+                <code>
+                    R1(config-if)# <b>bandwidth 64</b><br>
+                </code>
+            </div>
+
+        </div>
+
+        <h2 class="collapsible-header2" style="cursor: pointer;">Propagate a Default Route in OSPFv2</h2>
+        <div class="command-section">
+            <div class="image-container"> <img src="./2020-09-14_003241.jpg" alt="Layer 3 Switching Diagram"> </div>
+
+            <h3>Propagate a Default Route</h3>
+
+            <div class="command2">
+                <p>Based on the image above, testing the connectivity from PC1, PC2, and PC3, attempt to ping the Web Server IP address, 64.100.1.2. There is no successful pings, destination unreachable from R2 and gateway of last resort is not set. </p>
+                <br>
+                <p>Configure a default route on R2.</p>
+                <code>
+                    R2(config)# <b>ip route 0.0.0.0 0.0.0.0 Serial0/1/0</b> <br>
+                </code>
+
+                <p>Router will give a warning that if this interface is not a point-to-point connection, it may impact performance. You can ignore this warning because it is a point-to-point connection.</p>
+            </div>
+
+            <div class="command">
+                <p>Configure OSPF to propagate the default route in OSPF routing updates.</p>
+                <code>
+                    R2(config)# <b>router ospf [process_id]</b> <br>
+                    R2(config-router)# <b>default-information originate</b><br>
+                </code>
+
+            </div>
+        </div>
+
+        <h2 class="collapsible-header2" style="cursor: pointer;">Verify Single-Area OSPFv2</h2>
+        <div class="command-section">
+            <div class="image-container"> <img src="./2020-09-14_002931.jpg" alt="Layer 3 Switching Diagram"> </div>
+
+            <h3>Verify the existing OSPFv2 network operation.</h3>
+
+            <div class="command">
+                <p>The following commands will help you find the information needed .</p>
+
+                <code>
+                    show ip interface brief <br>
+                    show ip route <br>
+                    show ip route ospf <br>
+                    show ip ospf neighbor <br>
+                    show ip protocols <br>
+                    show ip ospf <br>
+                    show ip ospf interface <br>
+                </code>
+            </div>
         </div>
 
         <h2 class="collapsible-header2" style="cursor: pointer;">Single-Area OSPFv2 Configuration</h2>
         <div class="command-section">
-            <div class="image-container"> <img src="./Picture7.jpg" alt="Layer 3 Switching Diagram"> </div>
+            <div class="image-container"> <img src="./2020-09-14_002931.jpg" alt="Layer 3 Switching Diagram"> </div>
 
-            <h3>Router P2P-1</h3>
+            <h3>Use process ID for OSPF activation on all routers.</h3>
+
             <div class="command">
+                <p>Activate OSPF using network statements and inverse masks on the routers</p>
                 <code>
-                    P2P-1(config)# <b>router ospf 10</b><br>
-                    P2P-1(config-router)# <b>network 10.0.0.0 0.0.0.3 area 0</b><br>
-                    P2P-1(config-router)# <b>network 10.0.0.8 0.0.0.3 area 0</b><br>
-                    P2P-1(config-router)# <b>network 10.0.0.12 0.0.0.3 area 0</b>
+                    R1(config)# <b>router ospf [process_id]</b> <br>
+                    R1(config-router)# <b>network [network_address] [wildcard_mask] area [area_number]</b> <br>
+                    <br><br>
+                    [So on... All other other networks connected to the Router]
                 </code>
-                <p>Configures OSPF process ID 10 on P2P-1 and specifies the networks to be included in OSPF area 0 using inverse masks.</p>
+
+                <p>A wildcard mask is different from a subnet mask. While a subnet mask (like 255.255.0.0) defines which bits of an IP address are network bits and which are host bits, a wildcard mask is used to specify which bits of an IP address should
+                    be checked (matched) and which should be ignored.</p>
+            </div>
+            <br>
+            <div class="command2">
+                <p>Use process ID 10 for OSPF activation on all routers.</p>
+                <code>
+                    P2P-1(config)# router ospf 10 <br>
+                    P2P-1(config-router)# network 10.0.0.0 0.0.0.3 area 0 <br>
+                    P2P-1(config-router)# network 10.0.0.8 0.0.0.3 area 0 <br>
+                    P2P-1(config-router)# network 10.0.0.12 0.0.0.3 area 0 <br>
+                    <br><br>
+                    P2P-2(config)#router ospf 10 <br>
+                    P2P-2(config-router)# network 10.0.0.0 0.0.0.3 area 0 <br>
+                    P2P-2(config-router)# network 10.0.0.4 0.0.0.3 area 0 <br>
+                    P2P-2(config-router)# network 192.168.1.0 0.0.0.255 area 0 <br>
+                    P2P-2(config-router)# network 192.168.2.0 0.0.0.255 area 0 <br>
+                    <br><br>
+                    P2P-3(config)#router ospf 10 <br>
+                    P2P-3(config-router)# network 10.0.0.4 0.0.0.3 area 0 <br>
+                    P2P-3(config-router)# network 10.0.0.8 0.0.0.3 area 0 <br>
+                    P2P-3(config-router)# network 192.168.3.0 0.0.0.15 area 0 <br>
+                </code>
+            </div>
+            <br>
+            <div class="command">
+                <p>Activate OSPF by configuring the interfaces of the network devices</p>
+                <code>
+                    R1(config)# <b>interface [interface]</b> <br>
+                    R1(config-if)# <b>ip ospf [process_id] area [area_number]</b> <br>
+                </code>
+            </div>
+            <br>
+            <div class="command2">
+                <p> Activate OSPF by configuring the interfaces of the network devices in the Data Service network, where required.</p>
+                <code>
+                    BC-1(config)#interface GigabitEthernet0/0/0 <br>
+                    BC-1(config-if)#ip ospf 10 area 0 <br>
+                    <br>
+                    BC-1(config-if)#interface Serial0/1/0 <br>
+                    BC-1(config-if)#ip ospf 10 area 0 <br>
+                    <br> <hr width="100%"><br>
+                    BC-2(config)#interface GigabitEthernet0/0/0 <br>
+                    BC-2(config-if)#ip ospf 10 area 0 <br>
+                    <br>
+                    BC-2(config-if)#interface GigabitEthernet0/0/1 <br>
+                    BC-2(config-if)#ip ospf 10 area 0 <br>
+                    <br> <hr width="100%"><br>
+                    BC-3(config)#interface GigabitEthernet0/0/0 <br>
+                    BC-3(config-if)#ip ospf 10 area 0 <br>
+                    <br>
+                    BC-3(config-if)#interface GigabitEthernet0/0/1 <br>
+                    BC-3(config-if)#ip ospf 10 area 0 <br>
+                </code>
+            </div>
+
+            <br>
+
+            <div class="command">
+                <p>Configure router IDs on the multiaccess network routers</p>
+                <code>
+                    R1(config)# <b>router ospf [process_id]</b> <br>
+                    R1(config-router)# <b>router-id [router_id]</b> <br>
+                </code>
+            </div>
+            <br>
+            <div class="command2">
+                <code>
+                    BC-1(config)#router ospf 10  <br>
+                    BC-1(config-router)#router-id 6.6.6.6  <br>
+                    <br> <hr width="100%"><br>
+                    BC-2(config)#router ospf 10 <br>
+                    BC-2(config-router)#router-id 5.5.5.5  <br>
+                    <br> <hr width="100%"><br>
+                    BC-3(config)#router ospf 10 <br>
+                    BC-3(config-router)#router-id 4.4.4.4 <br>
+                </code>
+            </div>
+
+            <br>
+
+            <div class="command">
+                <p>Configure OSPF so that routing updates are not sent into networks where they are not required.</p>
+                <code>
+                    R1(config)# <b>router ospf [process_id]</b> <br>
+                    R1(config-router)# <b>passive-interface [interface]</b> <br>
+                </code>
+            </div>
+            <br>
+            <div class="command2">
+                <code>
+                    P2P-2(config)#router ospf 10 <br>
+                    P2P-2(config-router)#passive-interface GigabitEthernet0/0/0 <br>
+                    P2P-2(config-router)#passive-interface GigabitEthernet0/0/1 <br>
+                    <br> <hr width="100%"><br>
+                    P2P-3(config)#router ospf 10 <br>
+                    P2P-3(config-router)#passive-interface GigabitEthernet0/0/0 <br>
+                    <br> <hr width="100%"><br>
+                    BC-1(config)#router ospf 10 <br>
+                    BC-1(config-router)#passive-interface Serial0/1/1 <br>
+                    <br> <hr width="100%"><br>
+                    BC-2(config)#router ospf 10 <br>
+                    BC-2(config-router)#passive-interface GigabitEthernet0/0/0 <br>
+                    <br> <hr width="100%"><br>
+                    BC-3(config)#router ospf 10 <br>
+                    BC-3(config-router)#passive-interface GigabitEthernet0/0/0 <br>
+                </code>
+            </div>
+
+            <br>
+
+            <div class="command">
+                <p>Configure router with the highest OSPF interface priority so that it will always be the designated router of the multiaccess network.</p>
+                <code>
+                    R2(config)# <b>interface [interface]</b> <br>
+                    R2(config-if)# <b>ip ospf priority [priority_number]</b> <br>
+                </code>
+            </div>
+            <br>
+            <div class="command2">
+                <code>
+                    BC-1(config)#interface GigabitEthernet0/0/0 <br>
+                    BC-1(config-if)#ip ospf priority 255 <br>
+                </code>
+            </div>
+
+            <br>
+
+            <div class="command">
+                <p>Automatically distribute the default route to all routers in the network.</p>
+                <code>
+                    R2(config)# <b>router ospf [process_id]</b> <br>
+                    R2(config-router)# <b>default-information originate</b> <br>
+                </code>
+            </div>
+            <br>
+            <div class="command2">
+                <code>
+                    BC-1(config)#router ospf 10 <br>
+                    BC-1(config-router)#default-information originate <br>
+                </code>
+            </div>
+
+            <br>
+
+            <div class="command">
+                <p>Configure the OSPF routers so that the Gigabit Ethernet interface cost will be [required_number] and the Fast Ethernet cost will be [required_number].</p>
+                <code>
+                    R2(config)# <b>router ospf [process_id]</b> <br>
+                    R2(config-router)# <b>auto-cost reference-bandwidth [total_number]</b> <br>
+                </code>
+            </div>
+            <br>
+            <div class="command2">
+                <p>Configure the OSPF routers so that the Gigabit Ethernet interface cost will be 10 and the Fast Ethernet cost will be 100.</p>
+                <code>
+                    P2P-1(config)#router ospf 10 <br>
+                    P2P-1(config-router)#auto-cost reference-bandwidth 1000 <br>
+                </code>
+            </div>
+
+            <br>
+
+            <div class="command">
+                <p>Configure the OSPF cost value of router's interface to [required_number].</p>
+                <code>
+                    R1(config)# <b>interface [interface]</b> <br>
+                    R1(config-if)# <b>ip ospf cost [cost_number]</b> <br>
+                </code>
+            </div>
+            <br>
+            <div class="command2">
+                <code>
+                    P2P-1(config)#interface Serial0/1/1 <br>
+                    P2P-1(config-if)#ip ospf cost 50 <br>
+                </code>
+            </div>
+
+            <br>
+
+            <div class="command">
+                <p>Configure the hello and dead timer values on the interfaces</p>
+                <code>
+                    R1(config)# <b>interface [interface]</b> <br>
+                    R1(config-if)# <b>ip ospf hello-interval [duration]</b> <br>
+                    R1(config-if)# <b>ip ospf dead-interval [duration]</b> <br>
+                </code>
+            </div>
+            <br>
+            <div class="command2">
+                <code>
+                    P2P-1(config)#interface Serial0/2/0 <br>
+                    P2P-1(config-if)#ip ospf hello-interval 20 <br>
+                    P2P-1(config-if)#ip ospf dead-interval 80 <br>
+                </code>
             </div>
 
         </div>
+
+        <h2 class="collapsible-header2" style="cursor: pointer;">Access Control List Demonstration</h2>
+        <div class="command-section">
+            <div class="image-container"> <img src="./2019-06-27_082516.jpg" alt="Layer 3 Switching Diagram"> </div>
+
+            <h3>Verify Local Connectivity and Test Access Control List</h3>
+
+            <div class="command">
+                <p> Ping devices on the local network to verify connectivity.</p>
+
+                <code>
+                    show ip interface brief <br>
+                    show ip route <br>
+                    show ip route ospf <br>
+                    show ip ospf neighbor <br>
+                    show ip protocols <br>
+                    show ip ospf <br>
+                    show ip ospf interface <br>
+                </code>
+            </div>
+        </div>
+
+
+
+
+
+
     </div>
 
     <script>
