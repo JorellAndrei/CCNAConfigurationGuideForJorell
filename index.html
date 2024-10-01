@@ -1720,9 +1720,255 @@
 
         </div>
 
+        <h2 class="collapsible-header2" style="cursor: pointer;">Configure Numbered Standard IPv4 ACLs</h2>
+        <div class="command-section">
+            <div class="image-container">
+                <img src="./2020-09-16_150854.jpg" alt="Layer 3 Switching Diagram">
+            </div>
+
+            <h3>Configure, Apply, and Verify a Standard ACL</h3>
+
+            <div class="command">
+                <p>It will create an ACL with the number, which denies traffic from the certain network. This prevents any host on this network from passing through the router to the destination specified in the ACL application.</p>
+
+                <code>
+            R2(config)# <b>access-list [acl_number] deny [ip_address] [wildcard]</b> <br>
+        </code>
+            </div>
+            <div class="command2">
+                <p>Create an ACL using the number 1 on R2 with a statement that denies access to the 192.168.20.0/24 network from the 192.168.11.0/24 network.</p>
+
+                <code>
+            R2(config)# <b>access-list 1 deny 192.168.11.0 0.0.0.255</b> <br>
+        </code>
+            </div>
+
+            <div class="command">
+                <p>Create an ACL using the number 1 on R2 to permit all other traffic.</p>
+
+                <code>
+            R2(config)# <b>access-list [acl_number] permit any</b> <br>
+        </code>
+            </div>
+
+            <div class="command2">
+                <p>Apply the ACL on GigabitEthernet 0/0 interface outbound on R2.</p>
+
+                <code>
+            R2(config)# <b>interface GigabitEthernet0/0</b> <br>
+            R2(config-if)# <b>ip access-group 1 out</b> <br>
+        </code>
+            </div>
+
+            <div class="command">
+                <p>Create an ACL using the number 1 on R3 with a statement that denies access to the 192.168.30.0/24 network from the 192.168.10.0/24 network.</p>
+
+                <code>
+            R3(config)# <b>access-list 1 deny 192.168.10.0 0.0.0.255</b> <br>
+        </code>
+            </div>
+
+            <div class="command">
+                <p>Create an ACL using the number 1 on R3 to permit all other traffic.</p>
+
+                <code>
+            R3(config)# <b>access-list 1 permit any</b> <br>
+        </code>
+            </div>
+
+            <div class="command">
+                <p>Apply the ACL on GigabitEthernet 0/0 interface outbound on R3.</p>
+
+                <code>
+            R3(config)# <b>interface GigabitEthernet0/0</b> <br>
+            R3(config-if)# <b>ip access-group 1 out</b> <br>
+        </code>
+            </div>
+
+
+            <div class="command">
+                <p>Verify ACL configuration and functionality by running the following commands:</p>
+
+                <code>
+    R2# show access-lists <br>
+    R3# show access-lists <br>
+    </code>
+            </div>
+        </div>
+
+        <h2 class="collapsible-header2" style="cursor: pointer;">Configure Named IPv4 ACLs</h2>
+        <div class="command-section">
+            <h3>Part 1: Configure and Apply a Named Standard ACL</h3>
+
+            <div class="step">
+                <p><strong>Step 1:</strong> Verify connectivity before the ACL is configured and applied.</p>
+                <p>All three workstations should be able to ping both the Web Server and File Server.</p>
+            </div>
+
+            <div class="step">
+                <p><strong>Step 2:</strong> Configure a named standard ACL.</p>
+                <div class="command">
+                    <p>a. Configure the following named ACL on R1:</p>
+                    <code>
+                R1(config)# <b>ip access-list standard File_Server_Restrictions</b> <br>
+                R1(config-std-nacl)# <b>permit host 192.168.20.4</b> <br>
+                R1(config-std-nacl)# <b>permit host 192.168.100.100</b> <br>
+                R1(config-std-nacl)# <b>deny any</b> <br>
+            </code>
+                    <p><em>Note:</em> The ACL name is case-sensitive, and the statements must be in the same order as shown.</p>
+                </div>
+
+                <div class="command">
+                    <p>b. Use the <strong>show access-lists</strong> command to verify the contents of the access list before applying it to an interface. Verify that there are no mistakes.</p>
+                    <code>
+                R1# <b>show access-lists</b> <br>
+                Standard IP access list File_Server_Restrictions <br>
+                10 permit host 192.168.20.4 <br>
+                20 permit host 192.168.100.100 <br>
+                30 deny any <br>
+            </code>
+                </div>
+            </div>
+
+            <div class="step">
+                <p><strong>Step 3:</strong> Apply the named ACL.</p>
+                <div class="command">
+                    <p>a. Apply the ACL outbound on the Fast Ethernet 0/1 interface:</p>
+                    <code>
+                R1(config-if)# <b>ip access-group File_Server_Restrictions out</b> <br>
+            </code>
+                    <p><em>Note:</em> In operational networks, applying an ACL to an active interface should be done with caution.</p>
+                </div>
+                <div class="command">
+                    <p>b. Save the configuration.</p>
+                </div>
+            </div>
+
+            <h3>Part 2: Verify the ACL Implementation</h3>
+
+            <div class="step">
+                <p><strong>Step 1:</strong> Verify the ACL configuration and application to the interface.</p>
+                <div class="command">
+                    <p>Use the <strong>show access-lists</strong> command to verify the ACL configuration. Use the <strong>show run</strong> or <strong>show ip interface fastethernet 0/1</strong> command to verify the ACL is applied correctly to the interface.</p>
+                </div>
+            </div>
+
+            <div class="step">
+                <p><strong>Step 2:</strong> Verify that the ACL is working properly.</p>
+                <p>All three workstations should be able to ping the Web Server, but only PC1 and the Web Server should be able to ping the File Server. Use the <strong>show access-lists</strong> command to check the number of packet matches:</p>
+                <div class="command">
+                    <code>
+                R1# <b>show access-lists</b> <br>
+                Standard IP access list File_Server_Restrictions <br>
+                10 permit host 192.168.20.4 (4 match(es)) <br>
+                20 permit host 192.168.100.100 (4 match(es)) <br>
+                30 deny any (8 match(es)) <br>
+            </code>
+                </div>
+            </div>
+        </div>
+
+        <h2 class="collapsible-header2" style="cursor: pointer;">Configure and Modify Standard IPv4 ACLs</h2>
+        <div class="command-section">
+            <div class="image-container"> <img src="./5.2.7-Packet-Tracer-Configure-and-Modify-Standard-IPv4-ACLs.jpg" alt="Layer 3 Switching Diagram"> </div>
+
+            <h3>Configure a numbered standard ACL.</h3>
+
+            <div class="command">
+                <p>To enable access from the R1 LANs to R3, configure an Access Control List (ACL) on R3 with the access list number set to 1. The first entry includes a remark for clarity, indicating the purpose of the ACL. <br><br> The second entry permits
+                    traffic from the specified IP address range, ensuring that the R1 LANs can communicate with R3. Lastly, a deny statement is added to block all other traffic not explicitly permitted, enhancing network security.</p>
+
+                <code>
+                    R3(config)# <b>access-list [acl_number] remark Allow R1 LANs Access</b> <br>
+                    R3(config)# <b>access-list [acl_number] permit [ip_address] [wildcard]</b> <br>
+                    R3(config)# <b>access-list 1 deny any</b> <br>
+                </code>
+            </div>
+
+            <div class="command2">
+                <p>Configure the ACL on R3. Use 1 for the access list number.</p>
+                <code>
+                    R3(config)# <b>access-list 1 remark Allow R1 LANs Access</b> <br>
+                    R3(config)# <b>access-list 1 permit 192.168.10.0 0.0.0.255</b> <br>
+                    R3(config)# <b>access-list 1 permit 192.168.20.0 0.0.0.255</b> <br>
+                    R3(config)# <b>access-list 1 deny any</b> <br>
+                </code>
+            </div>
+
+            <div class="command2">
+
+                <p>Apply the ACL to the appropriate interface in the proper direction.</p>
+                <code>
+                    R3(config)# <b>interface g0/0/0</b> <br>
+                    R3(config-if)# <b>ip access-group 1 out</b> <br>
+                </code>
+            </div>
+
+            <div class="command2">
+                <p>Create the standard named ACL <b>BRANCH-OFFICE-POLICY</b> on R1.</p>
+                <code>
+                    R1(config)# <b>ip access-list standard BRANCH-OFFICE-POLICY</b> <br>
+                    R1(config-std-nacl)# <b>permit host 192.168.30.3</b> <br>
+                    R1(config-std-nacl)# <b>permit 192.168.40.0 0.0.0.255</b> <br>
+                    R1(config-std-nacl)# <b>end</b> <br>
+                    R1# <br>
+                    <b>*Feb 15 15:56:55.707: %SYS-5-CONFIG_I: Configured from console by console</b>
+                </code>
+            </div>
+
+            <div class="command2">
+                <p>Apply the ACL to the appropriate interface in the proper direction.</p>
+                <code>
+                    R1# <b>config t</b> <br>
+                    R1(config)# <b>interface g0/0/0</b> <br>
+                    R1(config-if)# <b>ip access-group BRANCH-OFFICE-POLICY out</b>
+                </code>
+            </div>
+
+            <div class="command">
+                <p>Option 1: Remove the existing ACL and recreate it with the updated rules.</p>
+                <code>
+                    R1# <b>config t</b> <br>
+                    R1(config)# <b>no ip access-list standard BRANCH-OFFICE-POLICY</b> <br>
+                    R1(config)# <b>ip access-list standard BRANCH-OFFICE-POLICY</b> <br>
+                    R1(config-std-nacl)# <b>permit host 192.168.30.3</b> <br>
+                    R1(config-std-nacl)# <b>permit 192.168.40.0 0.0.0.255</b> <br>
+                    R1(config-std-nacl)# <b>permit 209.165.200.224 0.0.0.31</b> <br>
+                    R1(config-std-nacl)# <b>deny any</b> <br>
+                    R1(config-std-nacl)# <b>end</b> <br>
+                    R1#
+                    *Feb 15 15:56:55.707: %SYS-5-CONFIG_I: Configured from console by console
+                </code>
+            </div>
+
+            <div class="command">
+                <p>Option 2: Modify the existing ACL to add the new rules.</p>
+                <code>
+                    R1# <b>config t</b> <br>
+                    R1(config)# <b>ip access-list standard BRANCH-OFFICE-POLICY</b> <br>
+                    R1(config-std-nacl)# <b>permit 209.165.200.224 0.0.0.31</b> <br>
+                    R1(config-std-nacl)# <b>deny any</b> <br>
+                    R1(config-std-nacl)# <b>end</b> <br>
+                    R1#
+                    *Feb 15 15:56:55.707: %SYS-5-CONFIG_I: Configured from console by console
+                </code>
+            </div>
+            <div class="command">
+                <p>Modify the existing ACL to add the new rules at the end.</p>
+                <code>
+                    R1# <b>config t</b> <br>
+                    R1(config)# <b>ip access-list standard BRANCH-OFFICE-POLICY</b> <br>
+                    R1(config-std-nacl)# <b>permit 209.165.200.224 0.0.0.31</b> <br>
+                    R1(config-std-nacl)# <b>deny any</b> <br>
+                    R1(config-std-nacl)# <b>end</b> <br>
+                    R1#
+                    *Feb 15 15:56:55.707: %SYS-5-CONFIG_I: Configured from console by console
+                </code>
+            </div>
 
 
 
+        </div>
 
 
     </div>
